@@ -8,9 +8,23 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-inter)", "sans-serif"],
+        serif: ["var(--font-playfair)", "serif"],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        brand: {
+          purple: "#6B21A8",     // deep violet — primary brand color
+          "purple-dark": "#4C1D95",
+          "purple-light": "#A855F7",
+          blue: "#7DD3FC",       // light blue
+          "blue-soft": "#E0F2FE",
+          sky: "#BAE6FD",        // soft sky blue
+          gold: "#F59E0B",       // gold/yellow accents
+          "gold-light": "#FDE68A",
+        },
       },
     },
   },
