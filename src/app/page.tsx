@@ -10,8 +10,8 @@ import { reveal } from "@/lib/motion";
 const painPoints = [
   { title: "Family rejection", desc: "Many converts face disapproval or distance from their own families.", icon: Users },
   { title: "Community barriers", desc: "Finding a welcoming Jewish community can be harder than expected.", icon: ShieldX },
-  { title: "A lengthy process", desc: "Orthodox conversion can take years and requires significant commitment.", icon: Clock4 },
-  { title: "Financial cost", desc: "Courses, travel, and community fees can create real financial strain.", icon: Banknote },
+  { title: "A lengthy process", desc: "Conversion can take years and requires significant commitment.", icon: Clock4 },
+  { title: "Financial cost", desc: "Courses, travel, Beit Din, and community fees can create real financial strain.", icon: Banknote },
   { title: "Emotional isolation", desc: "The spiritual journey can feel deeply lonely without the right support.", icon: CloudRain },
   { title: "Lack of information", desc: "The path forward is unclear — where to start, who to turn to, what to expect.", icon: BookOpen },
 ];
@@ -20,7 +20,7 @@ const stats = [
   { number: "50+", label: "Journeys guided" },
   { number: "16K+", label: "Global followers" },
   { number: "20", label: "Countries reached" },
-  { number: "4", label: "Languages spoken" },
+  { number: "10", label: "Languages spoken" },
 ];
 
 const testimonials = [
@@ -36,11 +36,11 @@ const testimonials = [
 ];
 
 const services = [
-  { title: "1:1 Consultation", desc: "Personal sessions in English, Hebrew, Portuguese, and Spanish." },
+  { title: "1:1 Consultation", desc: "Personal sessions in many languages." },
   { title: "Halachic Guidance", desc: "Expert answers rooted in Jewish law from our rabbinical advisor." },
   { title: "Hebrew Classes", desc: "Connect with the language of the Jewish people." },
   { title: "Weekly Webinars", desc: "Live sessions exclusive to our subscriber community." },
-  { title: "WhatsApp Community", desc: "20 countries, 10 languages, one shared journey." },
+  { title: "WhatsApp Community", desc: "One big family." },
   { title: "Free Guides", desc: "A growing library of resources for every stage of conversion." },
 ];
 
@@ -49,6 +49,7 @@ export default function Home() {
   const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [contactForm, setContactForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [contactStatus, setContactStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [splineLoaded, setSplineLoaded] = useState(false);
 
   async function handleNewsletter(e: React.FormEvent) {
     e.preventDefault();
@@ -63,8 +64,24 @@ export default function Home() {
     e.preventDefault();
     setContactStatus("loading");
     try {
-      const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(contactForm) });
-      setContactStatus(res.ok ? "success" : "error");
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: "873c502f-0dd7-452b-bbe4-c2b7748764ff",
+          subject: `[DTJ Contact] ${contactForm.subject}`,
+          from_name: contactForm.name,
+          email: contactForm.email,
+          message: contactForm.message,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setContactStatus("success");
+        setContactForm({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setContactStatus("error");
+      }
     } catch { setContactStatus("error"); }
   }
 
@@ -76,8 +93,14 @@ export default function Home() {
       ══════════════════════════════ */}
       <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 bg-[#1e0336] overflow-hidden">
         {/* Spline 3D background */}
-        <div className="absolute inset-0 pointer-events-none scale-125">
-          <Spline scene="https://prod.spline.design/pWeoU-DIzEd1eM-7/scene.splinecode" />
+        <div
+          className="absolute inset-0 pointer-events-none scale-125 transition-opacity duration-[1800ms] ease-in"
+          style={{ opacity: splineLoaded ? 1 : 0 }}
+        >
+          <Spline
+            scene="https://prod.spline.design/pWeoU-DIzEd1eM-7/scene.splinecode"
+            onLoad={() => setSplineLoaded(true)}
+          />
         </div>
         {/* layered glow */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,_#6B21A8_0%,_transparent_70%)] opacity-60" />
@@ -123,9 +146,6 @@ export default function Home() {
             <Link href="/services" className="bg-brand-gold hover:bg-yellow-400 text-white font-semibold px-10 py-4 rounded-full text-sm tracking-wide transition-all shadow-[0_0_30px_rgba(245,158,11,0.3)] hover:shadow-[0_0_40px_rgba(245,158,11,0.5)]">
               Start Your Journey
             </Link>
-            <Link href="/donate" className="border border-white/30 hover:border-white/70 text-white font-semibold px-10 py-4 rounded-full text-sm tracking-wide transition-all backdrop-blur-sm bg-white/5">
-              Support Us
-            </Link>
           </motion.div>
         </div>
 
@@ -141,7 +161,7 @@ export default function Home() {
         {/* wave bottom */}
         <div className="absolute -bottom-px left-0 right-0">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#BAE6FD" />
+            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#fb7109" />
           </svg>
         </div>
       </section>
@@ -149,12 +169,12 @@ export default function Home() {
       {/* ══════════════════════════════
           STATS BAR
       ══════════════════════════════ */}
-      <section className="bg-[#BAE6FD] pt-4 pb-16 px-6">
+      <section className="bg-[#fb7109] pt-4 pb-16 px-6">
         <div className="max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
           {stats.map((s, i) => (
             <motion.div key={s.label} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={reveal} className="flex flex-col items-center gap-1">
-              <span className="font-serif text-4xl font-bold text-brand-purple">{s.number}</span>
-              <span className="text-xs text-gray-400 uppercase tracking-wider">{s.label}</span>
+              <span className="font-serif text-4xl font-bold text-white">{s.number}</span>
+              <span className="text-xs text-gray-700 uppercase tracking-wider font-bold">{s.label}</span>
             </motion.div>
           ))}
         </div>
@@ -163,12 +183,11 @@ export default function Home() {
       {/* ══════════════════════════════
           PAIN POINTS
       ══════════════════════════════ */}
-      <section className="relative bg-[#3b0764] text-white py-28 px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_40%,_#6B21A8_0%,_transparent_70%)] opacity-50" />
+      <section className="relative bg-[#6B21A8] text-white py-28 px-6 overflow-hidden">
         {/* wave top */}
         <div className="absolute -top-px left-0 right-0 rotate-180">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#BAE6FD" />
+            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#fb7109" />
           </svg>
         </div>
 
@@ -179,11 +198,11 @@ export default function Home() {
           </motion.p>
           <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1} variants={reveal}
             className="font-serif text-4xl sm:text-5xl font-bold text-center mb-4 leading-tight">
-            The path is rarely simple
+            Meaningful but complicated journey
           </motion.h2>
           <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} custom={2} variants={reveal}
             className="text-white/75 text-center max-w-xl mx-auto mb-20 text-lg">
-            People who choose Judaism often face the same obstacles — alone.
+            People who choose Judaism often face the same obstacles — often alone.
           </motion.p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -191,7 +210,7 @@ export default function Home() {
               <motion.div key={p.title}
                 initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={reveal}
                 whileHover={{ y: -6, transition: { duration: 0.2, ease: "easeOut" } }}
-                className="group relative bg-white/8 backdrop-blur-sm border border-white/10 hover:border-brand-gold/40 rounded-2xl p-8 flex flex-col gap-4 cursor-default overflow-hidden transition-all duration-300"
+                className="group relative bg-white/8 border border-white/10 hover:border-brand-gold/40 rounded-2xl p-8 flex flex-col gap-4 cursor-default overflow-hidden transition-colors duration-300 will-change-transform"
               >
                 <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(ellipse_80%_80%_at_50%_120%,_rgba(245,158,11,0.10)_0%,_transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 {/* icon */}
@@ -206,14 +225,12 @@ export default function Home() {
 
           {/* pivot */}
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
-            className="mt-24 max-w-2xl mx-auto text-center">
-            <div className="w-px h-16 bg-brand-gold mx-auto mb-10 opacity-60" />
-            <h3 className="font-serif text-3xl sm:text-4xl font-bold italic mb-6">
+            className="mt-12 max-w-2xl mx-auto text-center">
+            <h3 className="font-serif text-3xl sm:text-4xl font-bold mb-6">
               And that&apos;s why we&apos;re here.
             </h3>
             <p className="text-white/75 text-lg leading-relaxed mb-10">
-              Destined to be a Jew was founded to help anyone who wishes to convert to Judaism
-              outside the borders of the State of Israel.
+              Destined to be a Jew was founded to help anyone who wishes to convert to Judaism - wherever you are!
             </p>
             <Link href="/about" className="inline-flex items-center gap-3 text-brand-gold font-semibold text-sm tracking-wide hover:gap-4 transition-all">
               Learn more about us
@@ -227,7 +244,7 @@ export default function Home() {
         {/* wave bottom */}
         <div className="absolute -bottom-px left-0 right-0">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-            <path d="M0 0L60 12C120 24 240 48 360 56C480 64 600 56 720 48C840 40 960 32 1080 36C1200 40 1320 56 1380 64L1440 72V80H0Z" fill="#BAE6FD" />
+            <path d="M0 0L60 12C120 24 240 48 360 56C480 64 600 56 720 48C840 40 960 32 1080 36C1200 40 1320 56 1380 64L1440 72V80H0Z" fill="#ffffff" />
           </svg>
         </div>
       </section>
@@ -235,7 +252,7 @@ export default function Home() {
       {/* ══════════════════════════════
           SERVICES — card grid
       ══════════════════════════════ */}
-      <section className="relative bg-[#BAE6FD] py-28 px-6 overflow-hidden">
+      <section className="relative bg-white py-28 px-6 overflow-hidden">
         <div className="relative z-10 max-w-6xl mx-auto">
           <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
             className="text-brand-gold text-xs font-semibold tracking-[0.2em] uppercase mb-4 text-center">
@@ -244,11 +261,11 @@ export default function Home() {
           <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1} variants={reveal}
             className="font-serif text-4xl sm:text-5xl font-bold text-gray-900 text-center mb-4 leading-tight">
             Everything you need,<br />
-            <span className="italic text-brand-purple">in one place</span>
+            <span className="text-brand-purple">in one place</span>
           </motion.h2>
           <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} custom={2} variants={reveal}
             className="text-gray-500 text-center max-w-md mx-auto mb-16 text-sm leading-relaxed">
-            From your first question to your final step — we&apos;re with you every part of the way.
+            From your first question to your final step - we&apos;re by your side through it all.
           </motion.p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -256,7 +273,7 @@ export default function Home() {
               <motion.div key={s.title}
                 initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={reveal}
                 whileHover={{ y: -6, transition: { duration: 0.25, ease: "easeOut" } }}
-                className="group relative bg-[#1e0336] border border-purple-900/60 rounded-2xl p-8 flex flex-col gap-4 cursor-default overflow-hidden hover:border-brand-gold/60 transition-colors duration-300 shadow-lg"
+                className="group relative bg-[#6B21A8] border border-purple-700/60 rounded-2xl p-8 flex flex-col gap-4 cursor-default overflow-hidden hover:border-brand-gold/60 transition-colors duration-300 shadow-lg"
               >
                 <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(ellipse_80%_80%_at_50%_120%,_rgba(245,158,11,0.14)_0%,_transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-brand-gold to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300" />
@@ -277,7 +294,7 @@ export default function Home() {
 
         <div className="absolute -bottom-px left-0 right-0">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-            <path d="M0 0L60 12C120 24 240 48 360 56C480 64 600 56 720 48C840 40 960 32 1080 36C1200 40 1320 56 1380 64L1440 72V80H0Z" fill="#1e0336" />
+            <path d="M0 0L60 12C120 24 240 48 360 56C480 64 600 56 720 48C840 40 960 32 1080 36C1200 40 1320 56 1380 64L1440 72V80H0Z" fill="#ffffff" />
           </svg>
         </div>
       </section>
@@ -285,9 +302,7 @@ export default function Home() {
       {/* ══════════════════════════════
           VERSE — full dark, centered
       ══════════════════════════════ */}
-      <section className="relative bg-[#1e0336] pt-0 pb-28 px-6 text-white text-center overflow-hidden -mt-px">
-        {/* decorative glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,_#6B21A8_0%,_transparent_70%)] opacity-40" />
+      <section className="relative bg-white pt-0 pb-28 px-6 text-center overflow-hidden -mt-px">
 
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
           className="relative z-10 max-w-3xl mx-auto">
@@ -296,18 +311,24 @@ export default function Home() {
             <span className="text-brand-gold text-3xl font-serif">&ldquo;</span>
             <div className="flex-1 h-px bg-gradient-to-l from-transparent to-brand-gold opacity-50" />
           </div>
-          <p className="font-serif text-xl sm:text-2xl leading-relaxed italic text-white/90 mb-8">
+          <p className="font-serif text-xl sm:text-2xl leading-relaxed text-gray-800 mb-8">
             If a stranger resides with you in your land, you shall not mistreat him.
             Like a native of your own shall be for you the stranger that resides with you.
             And you shall love him as yourself, since you were strangers in the land of Egypt:
             I am the Lord your God.
           </p>
+          <div className="flex items-center justify-center gap-6 mb-6">
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent to-brand-gold opacity-50" />
+            <span className="text-brand-gold text-3xl font-serif leading-none">&rdquo;</span>
+            <div className="flex-1 h-px bg-gradient-to-l from-transparent to-brand-gold opacity-50" />
+          </div>
           <p className="text-brand-gold text-xs font-semibold tracking-[0.2em] uppercase">Leviticus 19:33–34</p>
         </motion.div>
 
+        {/* wave bottom → into image section */}
         <div className="absolute -bottom-px left-0 right-0">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#BAE6FD" />
+            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#ffffff" />
           </svg>
         </div>
       </section>
@@ -315,9 +336,15 @@ export default function Home() {
       {/* ══════════════════════════════
           GUIDES CTA — split layout
       ══════════════════════════════ */}
-      <section className="bg-[#BAE6FD] py-20 px-6">
+      <section className="relative py-24 px-6 bg-cover bg-center overflow-hidden" style={{ backgroundImage: "url('/articlebackground.png')" }}>
+        {/* wave top — white from verse section */}
+        <div className="absolute -top-px left-0 right-0">
+          <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+            <path d="M0 0L60 12C120 24 240 48 360 56C480 64 600 56 720 48C840 40 960 32 1080 36C1200 40 1320 56 1380 64L1440 72V0H0Z" fill="#ffffff" />
+          </svg>
+        </div>
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
-          className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-10 border border-sky-200 rounded-3xl p-10 bg-white/60 shadow-sm">
+          className="relative z-10 max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-10 bg-white/80 backdrop-blur-sm border border-white/60 rounded-3xl p-10 shadow-lg">
           <div className="max-w-md">
             <p className="text-brand-gold text-xs font-semibold tracking-[0.2em] uppercase mb-3">Free resources</p>
             <h2 className="font-serif text-3xl font-bold text-gray-900 mb-3 leading-snug">
@@ -325,16 +352,22 @@ export default function Home() {
             </h2>
             <p className="text-gray-500 text-sm">Written by our team — available to everyone, for free.</p>
           </div>
-          <Link href="/guides" className="shrink-0 bg-brand-purple hover:bg-brand-purple-dark text-white font-semibold px-9 py-4 rounded-full text-sm tracking-wide transition-all shadow-lg hover:shadow-brand-purple/30">
-            Browse Guides
+          <Link href="/articles" className="shrink-0 bg-brand-purple hover:bg-brand-purple-dark text-white font-semibold px-9 py-4 rounded-full text-sm tracking-wide transition-all shadow-lg hover:shadow-brand-purple/30">
+            Browse Articles
           </Link>
         </motion.div>
+        {/* wave bottom → into testimonials dark section */}
+        <div className="absolute -bottom-px left-0 right-0">
+          <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#6B21A8" />
+          </svg>
+        </div>
       </section>
 
       {/* ══════════════════════════════
           TESTIMONIALS — auto-scroll marquee
       ══════════════════════════════ */}
-      <section className="relative bg-[#1e0336] py-24 px-0 overflow-hidden">
+      <section className="relative bg-[#6B21A8] pt-16 pb-36 px-0 overflow-hidden">
         <style>{`
           @keyframes marquee {
             from { transform: translateX(0); }
@@ -343,35 +376,30 @@ export default function Home() {
           .marquee-track {
             animation: marquee 50s linear infinite;
           }
-          .marquee-track:hover {
-            animation-play-state: paused;
-          }
         `}</style>
 
-        {/* wave top */}
-        <div className="absolute -top-px left-0 right-0">
-          <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-            <path d="M0 0L60 12C120 24 240 48 360 56C480 64 600 56 720 48C840 40 960 32 1080 36C1200 40 1320 56 1380 64L1440 72V0H0Z" fill="#BAE6FD" />
-          </svg>
-        </div>
-
-        <div className="relative z-10 pt-4">
+        <div className="relative z-10">
           <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
             className="text-brand-gold text-xs font-semibold tracking-[0.25em] uppercase text-center mb-3 px-6">
             What people say
           </motion.p>
           <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1} variants={reveal}
             className="font-serif text-4xl sm:text-5xl font-bold text-white text-center mb-14 px-6">
-            Stories that <span className="italic text-brand-gold">inspire us</span>
+            Stories that <span className="text-brand-gold">inspire us</span>
           </motion.h2>
 
+
           {/* Marquee */}
-          <div className="overflow-hidden">
+          <div
+            className="overflow-hidden"
+            onMouseEnter={e => (e.currentTarget.querySelector<HTMLElement>('.marquee-track')!.style.animationPlayState = 'paused')}
+            onMouseLeave={e => (e.currentTarget.querySelector<HTMLElement>('.marquee-track')!.style.animationPlayState = 'running')}
+          >
             <div className="marquee-track flex gap-5 w-max">
               {[...testimonials, ...testimonials].map((t, i) => (
                 <div
                   key={i}
-                  className="w-80 shrink-0 bg-white/8 backdrop-blur-sm border border-white/10 hover:border-brand-gold/40 rounded-2xl p-7 flex flex-col gap-4 transition-colors duration-300"
+                  className="w-80 shrink-0 bg-white/8 backdrop-blur-sm border border-white/10 hover:border-brand-gold/40 rounded-2xl p-7 flex flex-col gap-4 transition-colors duration-300 min-h-56"
                 >
                   <span className="text-brand-gold text-3xl font-serif leading-none">&ldquo;</span>
                   <p className="text-white/80 text-sm leading-relaxed">{t.quote}</p>
@@ -383,8 +411,8 @@ export default function Home() {
 
         {/* wave bottom */}
         <div className="absolute -bottom-px left-0 right-0">
-          <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-            <path d="M0 60L480 20L960 40L1440 0V60H0Z" fill="#BAE6FD" />
+          <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#BAE6FD" />
           </svg>
         </div>
       </section>
@@ -393,17 +421,17 @@ export default function Home() {
           WHATSAPP + DONATE — side by side
       ══════════════════════════════ */}
       <section className="bg-[#BAE6FD] pb-20 px-6">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 pt-16">
           {/* WhatsApp */}
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
-            className="bg-[#0f0020] text-white rounded-3xl p-10 flex flex-col gap-6">
+            className="bg-[#6B21A8] text-white rounded-3xl p-10 flex flex-col gap-6">
             <p className="text-brand-gold text-xs font-semibold tracking-[0.2em] uppercase">Community</p>
             <h3 className="font-serif text-2xl font-bold leading-snug">
               Join a global community of people just like you
             </h3>
-            <p className="text-white/65 text-sm">20 countries · 10 languages · one shared journey.</p>
+            <p className="text-white/65 text-sm">20 countries · 10 languages · one big family.</p>
             <a href="https://chat.whatsapp.com/HPhHBNdkzE5Fq4lg4Xe809" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-semibold px-7 py-3 rounded-full text-sm w-fit transition-colors">
+              className="inline-flex items-center gap-2 bg-[#fb7109] hover:bg-[#e86508] text-white font-semibold px-7 py-3 rounded-full text-sm w-fit transition-colors">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
               </svg>
@@ -418,9 +446,9 @@ export default function Home() {
             <h3 className="font-serif text-2xl font-bold leading-snug">
               Support our mission
             </h3>
-            <p className="text-white/80 text-sm">Your donation helps us provide free guidance to converts around the world.</p>
+            <p className="text-white/80 text-sm">Be a partner in their journey home - Join us in strengthening the future of the Jewish people.</p>
             <Link href="/donate"
-              className="inline-flex items-center gap-2 bg-white text-brand-gold hover:bg-yellow-50 font-semibold px-7 py-3 rounded-full text-sm w-fit transition-colors">
+              className="inline-flex items-center gap-2 bg-[#6B21A8] hover:bg-[#4C1D95] text-white font-semibold px-7 py-3 rounded-full text-sm w-fit transition-colors">
               Donate Now
             </Link>
           </motion.div>
@@ -430,7 +458,7 @@ export default function Home() {
       {/* ══════════════════════════════
           NEWSLETTER
       ══════════════════════════════ */}
-      <section className="relative bg-[#1e0336] pt-20 pb-24 px-6 text-white overflow-hidden">
+      <section className="relative bg-[#6B21A8] pt-20 pb-24 px-6 text-white overflow-hidden">
         <div className="absolute -top-px left-0 right-0">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
             <path d="M0 0L60 12C120 24 240 48 360 56C480 64 600 56 720 48C840 40 960 32 1080 36C1200 40 1320 56 1380 64L1440 72V0H0Z" fill="#BAE6FD" />
@@ -458,7 +486,7 @@ export default function Home() {
         </motion.div>
         <div className="absolute -bottom-px left-0 right-0">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#BAE6FD" />
+            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#ffffff" />
           </svg>
         </div>
       </section>
@@ -466,13 +494,13 @@ export default function Home() {
       {/* ══════════════════════════════
           CONTACT
       ══════════════════════════════ */}
-      <section className="bg-[#BAE6FD] py-28 px-6">
+      <section className="bg-white pt-16 pb-28 px-6">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
           className="max-w-2xl mx-auto">
           <p className="text-center text-brand-gold text-xs font-semibold tracking-[0.2em] uppercase mb-3">Get in touch</p>
           <h2 className="font-serif text-4xl font-bold text-gray-900 text-center mb-2 leading-tight">
             Want to speak with us<br />
-            <span className="italic text-brand-purple">directly?</span>
+            <span className="text-brand-purple">directly?</span>
           </h2>
           <p className="text-gray-400 text-center mb-14 text-sm">We&apos;d love to hear from you.</p>
 
@@ -483,17 +511,17 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <input type="text" required placeholder="Your name" value={contactForm.name}
                   onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                  className="flex-1 border-b-2 border-gray-400 focus:border-brand-purple pb-3 text-sm font-semibold outline-none transition-colors bg-transparent placeholder-gray-500" />
+                  className="flex-1 border-b-2 border-gray-400 focus:border-brand-purple pb-3 text-sm font-semibold outline-none transition-colors bg-transparent placeholder-gray-500 text-gray-900" />
                 <input type="email" required placeholder="Your email" value={contactForm.email}
                   onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                  className="flex-1 border-b-2 border-gray-400 focus:border-brand-purple pb-3 text-sm font-semibold outline-none transition-colors bg-transparent placeholder-gray-500" />
+                  className="flex-1 border-b-2 border-gray-400 focus:border-brand-purple pb-3 text-sm font-semibold outline-none transition-colors bg-transparent placeholder-gray-500 text-gray-900" />
               </div>
               <input type="text" placeholder="Subject" value={contactForm.subject}
                 onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
-                className="border-b-2 border-gray-400 focus:border-brand-purple pb-3 text-sm font-semibold outline-none transition-colors bg-transparent placeholder-gray-500" />
+                className="border-b-2 border-gray-400 focus:border-brand-purple pb-3 text-sm font-semibold outline-none transition-colors bg-transparent placeholder-gray-500 text-gray-900" />
               <textarea required rows={5} placeholder="Your message" value={contactForm.message}
                 onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                className="border-b-2 border-gray-400 focus:border-brand-purple pb-3 text-sm font-semibold outline-none transition-colors bg-transparent placeholder-gray-500 resize-none" />
+                className="border-b-2 border-gray-400 focus:border-brand-purple pb-3 text-sm font-semibold outline-none transition-colors bg-transparent placeholder-gray-500 text-gray-900 resize-none" />
               <div className="flex justify-center mt-6">
                 <button type="submit" disabled={contactStatus === "loading"}
                   className="bg-brand-purple hover:bg-brand-purple-dark text-white font-semibold px-10 py-4 rounded-full text-sm tracking-wide transition-all disabled:opacity-60 shadow-lg hover:shadow-brand-purple/30">

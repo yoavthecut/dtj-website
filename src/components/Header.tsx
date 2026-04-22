@@ -26,13 +26,13 @@ export default function Header() {
                 className="rounded-full"
               />
             </div>
-            <span className="font-bold text-brand-purple text-sm leading-tight hidden sm:block">
+            <span className="font-bold text-brand-purple text-base leading-tight hidden sm:block">
               Destined to be a Jew
             </span>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
+          <nav className="hidden md:flex items-center gap-6 text-base font-medium text-gray-700">
             {/* About dropdown */}
             <div
               className="relative"
@@ -74,8 +74,8 @@ export default function Header() {
             <Link href="/services" className="hover:text-brand-purple transition-colors">
               Services
             </Link>
-            <Link href="/guides" className="hover:text-brand-purple transition-colors">
-              Guides
+            <Link href="/articles" className="hover:text-brand-purple transition-colors">
+              Articles
             </Link>
             <Link href="/faq" className="hover:text-brand-purple transition-colors">
               FAQ
@@ -151,8 +151,8 @@ export default function Header() {
           <Link href="/services" className="hover:text-brand-purple" onClick={() => setMobileOpen(false)}>
             Services
           </Link>
-          <Link href="/guides" className="hover:text-brand-purple" onClick={() => setMobileOpen(false)}>
-            Guides
+          <Link href="/articles" className="hover:text-brand-purple" onClick={() => setMobileOpen(false)}>
+            Articles
           </Link>
           <Link href="/faq" className="hover:text-brand-purple" onClick={() => setMobileOpen(false)}>
             FAQ

@@ -137,7 +137,7 @@ export default function FAQPage() {
             initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
             className="font-serif text-5xl sm:text-6xl font-bold leading-tight"
           >
-            Frequently Asked <span className="italic text-brand-gold">Questions</span>
+            Frequently Asked <span className="text-brand-gold">Questions</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}

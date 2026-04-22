@@ -6,7 +6,7 @@ import { useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { reveal } from "@/lib/motion";
 
-// ── Icons (solid fill) ────────────────────────────────────────────────────────
+// ── Icons ─────────────────────────────────────────────────────────────────────
 
 function ConsultationIcon() {
   return (
@@ -50,78 +50,62 @@ function ArrowIcon() {
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
-// Calendly URLs per service+language — swap "#placeholder" for real URLs
 const CALENDLY: Record<string, Record<string, string>> = {
   consultation: {
-    English:    "https://calendly.com/manager-dtj/30min",   // → manager@dtj.info's Calendly
+    English:    "https://calendly.com/manager-dtj/30min",
     Spanish:    "https://calendly.com/melissa-elbaz-anthropo/30min",
-    Portuguese: "#consultation-pt",   // → jacqueline.passy18@gmail.com's Calendly
+    Portuguese: "#consultation-pt",
   },
   emotional: {
-    English:    "https://calendly.com/manager-dtj/30min",      // → manager@dtj.info's Calendly
-    Portuguese: "#emotional-pt",      // → jacqueline.passy18@gmail.com's Calendly
+    English: "https://calendly.com/manager-dtj/30min",
   },
-  // hebrew: {} — blank for now, card will show "Coming soon"
 };
 
-const services = [
+const HEBREW_TRIAL_URL = "#hebrew-trial"; // Replace with odeliaarazi70@gmail.com Calendly URL
+
+const steps = [
   {
-    id: "consultation",
-    label: "1:1 Consultation",
-    price: "$35",
-    benefit: "Gain clarity, connection, and confidence on your journey to Judaism.",
-    intro: "A deep dive session tailored to you. Meet with one of our experienced consultants who has personally lived the conversion process to:",
-    bullets: [
-      "Understand your unique conversion process.",
-      "Find the right path for your specific needs.",
-      "Confidently address all your questions.",
-    ],
-    detail: "45 min · All session details shared upon booking.",
-    idealFor: "Those exploring Judaism or facing complex questions.",
     icon: ConsultationIcon,
+    step: "01",
+    title: "Choose your session",
+    desc: "Browse our session types and find the one that meets you where you are right now.",
   },
   {
-    id: "emotional",
-    label: "Emotional Support",
-    price: "$35",
-    benefit: "Find peace, strength, and perspective on a deeply personal path.",
-    intro: "Conversion is as emotional as it is spiritual. Our consultants offer a safe, compassionate space to help you:",
-    bullets: [
-      "Process the weight of this life-changing decision.",
-      "Reconnect with your purpose and motivation.",
-      "Move forward with renewed strength and clarity.",
-    ],
-    detail: "45 min · All session details shared upon booking.",
-    idealFor: "Those experiencing doubt, loneliness, or family tension.",
-    icon: HeartIcon,
+    icon: CalendarIcon,
+    step: "02",
+    title: "Book a time",
+    desc: "Pick a date that works for you. The calendar displays times in your local timezone automatically.",
+    note: "Times shown in your local timezone",
   },
   {
-    id: "hebrew",
-    label: "Hebrew Classes",
-    price: "$35",
-    benefit: "Connect with the language and soul of the Jewish people.",
-    intro: "Hebrew is more than a language — it is the heartbeat of Jewish life. Our personalized classes help you:",
-    bullets: [
-      "Build practical reading and comprehension skills.",
-      "Feel confident in prayers, texts, and community settings.",
-      "Deepen your connection to Jewish identity and tradition.",
-    ],
-    detail: "45 min · All levels welcome.",
-    idealFor: "Converts preparing for Beit Din or daily life in Israel.",
-    icon: BookIcon,
+    icon: ArrowIcon,
+    step: "03",
+    title: "Move forward",
+    desc: "Receive a link for an online video call with one of our consultants and begin your journey back home.",
   },
 ];
 
-const steps = [
-  { icon: ConsultationIcon, step: "01", title: "Choose your session", desc: "Browse our three session types and find the one that meets you where you are right now." },
-  { icon: CalendarIcon,     step: "02", title: "Book a time",         desc: "Pick a date and language that work for you. We accommodate all time zones and schedules." },
-  { icon: ArrowIcon,        step: "03", title: "Move forward",        desc: "Walk away with clarity, a clear next step, and the confidence to continue your journey." },
+const testimonials = [
+  { quote: "You're just excellent at what you do. Thank you so much for your time and support. You've made me very happy." },
+  { quote: "Dear Noa, I've been following you more or less since the beginning, and although I'd already started reading into the process before I came across your account, your tips and the way you've structured everything took it to a whole new level." },
+  { quote: "The best decision I made was to book an individual consultation with Noa. It gave us the chance to talk through my personal circumstances and background, and you really helped me work out the way forward that suits me best. I honestly can't express how grateful I am for the care and attention you've shown — not just going the extra mile, but 10 times over." },
+  { quote: "Noa Amalia Arazi is one of the most gorgeous souls you will ever meet! If you have any conversion-related questions whatsoever, you MUST speak with her asap! She is hands down the best for conversion troubleshooting, unbiased, and looking out for your interest!" },
+  { quote: "I always knew Judaism was my path, but finding the right way to begin felt impossible. Booking a session with Noa was a turning point. Her warmth, experience, and practical advice helped me find the right contacts and finally start my journey. I'm so grateful, not only for her guidance, but also for the beautiful connection I now have in Jerusalem." },
+  { quote: "Noa explained to me the options, avenues and challenges, and personally helped me link with a Rabbi in Singapore. I had been looking for help for some time, and I am truly thankful for her guidance and help." },
+  { quote: "My life was on hold for three years due to bureaucracy. Just when I thought I was done, Noa appeared out of nowhere like an angel. Thank you very much Noa for all your help and guidance. Well on the road now." },
+  { quote: "Thank you for everything, Noa. I learned a lot, and I am excited to begin this process." },
+  { quote: "Noa has been a guiding light in my journey. Through her, I connected with incredible people and rabbis, leading me to a supportive community. Her friendly personality and wisdom inspire everyone around her." },
 ];
 
 // ── Payment Modal ─────────────────────────────────────────────────────────────
 
+interface ModalService {
+  id: string;
+  label: string;
+}
+
 interface ModalProps {
-  service: typeof services[number];
+  service: ModalService;
   language: string;
   onClose: () => void;
 }
@@ -142,30 +126,20 @@ function PaymentModal({ service, language, onClose }: ModalProps) {
         transition={{ duration: 0.25, ease: "easeOut" }}
         className="relative bg-[#1e0336] border border-purple-900/60 rounded-2xl p-8 w-full max-w-md shadow-2xl"
       >
-        {/* Close */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors"
-          aria-label="Close"
-        >
+        <button onClick={onClose} className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors" aria-label="Close">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-
-        {/* Header */}
         <div className="mb-6">
           <p className="text-brand-gold text-xs font-semibold tracking-[0.2em] uppercase mb-2">Complete your booking</p>
           <h3 className="font-serif text-2xl font-bold text-white leading-snug">{service.label}</h3>
           <p className="text-white/60 text-sm mt-1">{language} · 45 min session</p>
         </div>
-
-        {/* Price */}
         <div className="flex items-center justify-between bg-white/5 rounded-xl px-5 py-4 mb-6 border border-white/10">
           <span className="text-white/70 text-sm">Session fee</span>
           <span className="text-brand-gold font-bold text-xl">$35.00</span>
         </div>
-
         {!paid ? (
           <>
             <p className="text-white/50 text-xs text-center mb-4">Pay securely with PayPal. You will be redirected to Calendly to pick your time immediately after.</p>
@@ -180,10 +154,7 @@ function PaymentModal({ service, language, onClose }: ModalProps) {
               onApprove={async (_data, actions) => {
                 await actions.order?.capture();
                 setPaid(true);
-                setTimeout(() => {
-                  window.open(calendlyUrl, "_blank", "noopener,noreferrer");
-                  onClose();
-                }, 1200);
+                setTimeout(() => { window.open(calendlyUrl, "_blank", "noopener,noreferrer"); onClose(); }, 1200);
               }}
               onError={() => alert("Payment failed. Please try again or contact us at manager@dtj.info.")}
             />
@@ -208,12 +179,12 @@ function PaymentModal({ service, language, onClose }: ModalProps) {
 
 export default function ServicesPage() {
   const [selectedLang, setSelectedLang] = useState<Record<string, string>>({});
-  const [modal, setModal] = useState<{ service: typeof services[number]; language: string } | null>(null);
+  const [modal, setModal] = useState<{ service: ModalService; language: string } | null>(null);
 
-  function openModal(service: typeof services[number]) {
-    const lang = selectedLang[service.id];
+  function openModal(id: string, label: string) {
+    const lang = selectedLang[id];
     if (!lang) return;
-    setModal({ service, language: lang });
+    setModal({ service: { id, label }, language: lang });
   }
 
   return (
@@ -221,10 +192,13 @@ export default function ServicesPage() {
       <div className="flex flex-col overflow-x-hidden">
 
         {/* ── HERO ── */}
-        <section className="relative bg-[#1e0336] text-white py-32 px-6 text-center overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_40%,_#6B21A8_0%,_transparent_70%)] opacity-50" />
+        <section className="relative bg-[#6B21A8] text-white py-32 px-6 text-center overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-brand-gold to-transparent" />
-
+          <div className="absolute -bottom-px left-0 right-0 z-10">
+            <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+              <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#ffffff" />
+            </svg>
+          </div>
           <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center gap-6">
             <motion.span
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}
@@ -237,25 +211,19 @@ export default function ServicesPage() {
               className="font-serif text-5xl sm:text-6xl font-bold leading-tight text-center"
             >
               Personalized guidance,{" "}
-              <span className="italic text-brand-gold">every step of the way</span>
+              <span className="text-brand-gold">every step of the way</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
               className="text-white/70 text-lg max-w-xl leading-relaxed"
             >
-              One-on-one sessions with consultants who have lived the journey — available in four languages, wherever you are in the world.
+              One-on-one sessions with consultants who have lived the journey — available in multiple languages, wherever you are in the world.
             </motion.p>
-          </div>
-
-          <div className="absolute -bottom-px left-0 right-0">
-            <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-              <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#BAE6FD" />
-            </svg>
           </div>
         </section>
 
         {/* ── SERVICE CARDS ── */}
-        <section className="bg-[#BAE6FD] py-28 px-6">
+        <section className="relative bg-white py-24 px-6 overflow-hidden">
           <div className="max-w-6xl mx-auto">
             <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
               className="text-brand-gold text-xs font-semibold tracking-[0.2em] uppercase mb-4 text-center">
@@ -266,122 +234,189 @@ export default function ServicesPage() {
               Choose your session
             </motion.h2>
             <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} custom={2} variants={reveal}
-              className="text-gray-600 text-center max-w-md mx-auto mb-16 text-sm leading-relaxed">
-              All sessions are $35, conducted by experienced consultants who understand your journey firsthand.
+              className="text-gray-500 text-center max-w-md mx-auto mb-16 text-sm leading-relaxed">
+              Browse our session types and find the one that meets you where you are right now.
             </motion.p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {services.map((svc, i) => {
-                const availableLangs = Object.keys(CALENDLY[svc.id] ?? {});
-                const hasLangs = availableLangs.length > 0;
-                const chosenLang = selectedLang[svc.id];
-                const canBook = hasLangs && !!chosenLang;
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
+              {/* ── Box 1: 1:1 Consultation ── */}
+              {(() => {
+                const id = "consultation";
+                const label = "1:1 Consultation";
+                const langs = Object.keys(CALENDLY[id]);
+                const chosen = selectedLang[id];
                 return (
-                  <motion.div key={svc.id}
-                    initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={reveal}
-                    whileHover={{ y: -6, transition: { duration: 0.25, ease: "easeOut" } }}
-                    className="group relative bg-[#1e0336] border border-purple-900/60 rounded-2xl p-8 flex flex-col gap-4 overflow-hidden hover:border-brand-gold/60 transition-colors duration-300 shadow-lg"
-                  >
-                    {/* Hover glow */}
-                    <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(ellipse_80%_80%_at_50%_120%,_rgba(245,158,11,0.14)_0%,_transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-brand-gold to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300" />
-
-                    {/* Icon */}
-                    <div className="relative z-10 w-12 h-12 rounded-xl bg-brand-gold/15 group-hover:bg-brand-gold/25 flex items-center justify-center transition-all duration-300 text-brand-gold shadow-[0_0_14px_rgba(245,158,11,0.15)] group-hover:shadow-[0_0_22px_rgba(245,158,11,0.3)]">
-                      <svc.icon />
+                  <motion.div key={id} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
+                    className="bg-white border-2 border-[#6B21A8] rounded-2xl p-8 flex flex-col gap-5 shadow-sm">
+                    <div className="w-12 h-12 rounded-xl bg-[#6B21A8]/10 flex items-center justify-center text-[#6B21A8]">
+                      <ConsultationIcon />
                     </div>
-
-                    {/* Title + price */}
-                    <div className="relative z-10 flex items-start justify-between gap-2">
-                      <h3 className="font-serif text-xl font-bold text-white group-hover:text-brand-gold transition-colors duration-300 leading-snug">
-                        {svc.label}
-                      </h3>
-                      <span className="shrink-0 bg-brand-gold/20 text-brand-gold text-xs font-bold px-2.5 py-1 rounded-full border border-brand-gold/30">
-                        {svc.price}
-                      </span>
+                    <div className="flex items-start justify-between gap-2">
+                      <h3 className="font-serif text-xl font-bold text-gray-900 leading-snug">{label}</h3>
+                      <span className="shrink-0 bg-[#6B21A8] text-white text-xs font-bold px-3 py-1 rounded-full">$35</span>
                     </div>
-
-                    {/* Benefit */}
-                    <p className="text-white font-semibold text-sm leading-snug relative z-10">{svc.benefit}</p>
-
-                    {/* Intro + bullets */}
-                    <div className="relative z-10 flex flex-col gap-2">
-                      <p className="text-white/60 text-sm leading-relaxed group-hover:text-white/80 transition-colors duration-300">{svc.intro}</p>
-                      <ul className="flex flex-col gap-1.5 mt-1">
-                        {svc.bullets.map((b) => (
-                          <li key={b} className="flex items-start gap-2 text-white/60 text-sm leading-relaxed group-hover:text-white/80 transition-colors duration-300">
-                            <span className="mt-[5px] shrink-0 w-1.5 h-1.5 rounded-full bg-brand-gold/60" />
-                            {b}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* Detail */}
-                    <p className="text-white/30 text-xs relative z-10">{svc.detail}</p>
-
-                    {/* Ideal for */}
-                    <p className="text-xs relative z-10">
-                      <span className="text-white/40">Ideal for: </span>
-                      <span className="text-brand-gold/80 font-medium">{svc.idealFor}</span>
-                    </p>
-
-                    {/* Language selector or Coming Soon */}
-                    <div className="relative z-10 mt-auto flex flex-col gap-3">
-                      {hasLangs ? (
-                        <>
-                          <p className="text-white/40 text-xs uppercase tracking-wider">Select language</p>
-                          <div className="flex flex-wrap gap-2">
-                            {availableLangs.map((lang) => (
-                              <button
-                                key={lang}
-                                onClick={() => setSelectedLang((prev) => ({ ...prev, [svc.id]: lang }))}
-                                className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 ${
-                                  chosenLang === lang
-                                    ? "bg-brand-gold border-brand-gold text-white shadow-md"
-                                    : "bg-white/8 border-white/20 text-white/70 hover:border-white/40 hover:text-white"
-                                }`}
-                              >
-                                {lang}
-                              </button>
-                            ))}
-                          </div>
-                          <button
-                            onClick={() => openModal(svc)}
-                            disabled={!canBook}
-                            className={`inline-flex items-center gap-2 font-semibold px-5 py-3 rounded-full text-sm tracking-wide transition-all self-start ${
-                              canBook
-                                ? "bg-brand-gold hover:bg-yellow-400 text-white hover:-translate-y-0.5 shadow-md hover:shadow-lg cursor-pointer"
-                                : "bg-white/10 text-white/30 cursor-not-allowed"
-                            }`}
-                          >
-                            Book a Session
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                            </svg>
+                    <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">45 min</p>
+                    <p className="text-gray-700 text-sm font-semibold">Want to begin the conversion process but don&apos;t know where to start?</p>
+                    <ul className="flex flex-col gap-2">
+                      {[
+                        "A step-by-step explanation of the conversion process",
+                        "Budget planning for the conversion journey",
+                        "An overview of the different recognitions by the Israeli Rabbinate and the Israeli Ministry of Interior",
+                        "Exploring options for conversion in Israel",
+                        "Connecting you with a Jewish community, rabbi, or conversion program if needed and if possible",
+                      ].map((b) => (
+                        <li key={b} className="flex items-start gap-2 text-gray-600 text-sm leading-relaxed">
+                          <span className="mt-[6px] shrink-0 w-1.5 h-1.5 rounded-full bg-[#6B21A8]" />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-auto flex flex-col gap-3 pt-4 border-t border-gray-100">
+                      <p className="text-gray-500 text-xs font-semibold uppercase tracking-wider">Schedule here — select language</p>
+                      <div className="flex flex-wrap gap-2">
+                        {langs.map((lang) => (
+                          <button key={lang} onClick={() => setSelectedLang((p) => ({ ...p, [id]: lang }))}
+                            className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 ${
+                              chosen === lang ? "bg-[#6B21A8] border-[#6B21A8] text-white" : "border-gray-300 text-gray-600 hover:border-[#6B21A8] hover:text-[#6B21A8]"
+                            }`}>
+                            {lang}
                           </button>
-                        </>
-                      ) : (
-                        <span className="text-white/30 text-xs font-semibold tracking-widest uppercase">Coming soon</span>
-                      )}
+                        ))}
+                      </div>
+                      <button onClick={() => openModal(id, label)} disabled={!chosen}
+                        className={`inline-flex items-center gap-2 font-semibold px-5 py-3 rounded-full text-sm tracking-wide transition-all self-start ${
+                          chosen ? "bg-[#6B21A8] hover:bg-[#4C1D95] text-white shadow-md cursor-pointer" : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                        }`}>
+                        Book a Session
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                        </svg>
+                      </button>
                     </div>
                   </motion.div>
                 );
-              })}
+              })()}
+
+              {/* ── Box 2: Emotional Support ── */}
+              {(() => {
+                const id = "emotional";
+                const label = "Emotional Support";
+                const langs = Object.keys(CALENDLY[id]);
+                const chosen = selectedLang[id];
+                return (
+                  <motion.div key={id} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1} variants={reveal}
+                    className="bg-white border-2 border-[#6B21A8] rounded-2xl p-8 flex flex-col gap-5 shadow-sm">
+                    <div className="w-12 h-12 rounded-xl bg-[#6B21A8]/10 flex items-center justify-center text-[#6B21A8]">
+                      <HeartIcon />
+                    </div>
+                    <div className="flex items-start justify-between gap-2">
+                      <h3 className="font-serif text-xl font-bold text-gray-900 leading-snug">{label}</h3>
+                      <span className="shrink-0 bg-[#6B21A8] text-white text-xs font-bold px-3 py-1 rounded-full">$35</span>
+                    </div>
+                    <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">45 min</p>
+                    <p className="text-gray-700 text-sm font-semibold">A safe, non-judgmental space to discuss the personal and emotional aspects of conversion:</p>
+                    <ul className="flex flex-col gap-2">
+                      {[
+                        "Guidance on sensitive topics: Family dynamics, community integration, and lifestyle changes.",
+                        "Personal insights: Sessions are led by an instructor who has successfully navigated the conversion process.",
+                        "Unbiased support: Ask the questions you might feel uncomfortable asking elsewhere.",
+                      ].map((b) => (
+                        <li key={b} className="flex items-start gap-2 text-gray-600 text-sm leading-relaxed">
+                          <span className="mt-[6px] shrink-0 w-1.5 h-1.5 rounded-full bg-[#6B21A8]" />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-auto flex flex-col gap-3 pt-4 border-t border-gray-100">
+                      <p className="text-gray-500 text-xs font-semibold uppercase tracking-wider">Schedule here — select language</p>
+                      <div className="flex flex-wrap gap-2">
+                        {langs.map((lang) => (
+                          <button key={lang} onClick={() => setSelectedLang((p) => ({ ...p, [id]: lang }))}
+                            className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 ${
+                              chosen === lang ? "bg-[#6B21A8] border-[#6B21A8] text-white" : "border-gray-300 text-gray-600 hover:border-[#6B21A8] hover:text-[#6B21A8]"
+                            }`}>
+                            {lang}
+                          </button>
+                        ))}
+                      </div>
+                      <button onClick={() => openModal(id, label)} disabled={!chosen}
+                        className={`inline-flex items-center gap-2 font-semibold px-5 py-3 rounded-full text-sm tracking-wide transition-all self-start ${
+                          chosen ? "bg-[#6B21A8] hover:bg-[#4C1D95] text-white shadow-md cursor-pointer" : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                        }`}>
+                        Book a Session
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                        </svg>
+                      </button>
+                    </div>
+                  </motion.div>
+                );
+              })()}
+
+              {/* ── Box 3: Hebrew Classes ── */}
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={2} variants={reveal}
+                className="bg-white border-2 border-[#6B21A8] rounded-2xl p-8 flex flex-col gap-5 shadow-sm">
+                <div className="w-12 h-12 rounded-xl bg-[#6B21A8]/10 flex items-center justify-center text-[#6B21A8]">
+                  <BookIcon />
+                </div>
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="font-serif text-xl font-bold text-gray-900 leading-snug">Hebrew Classes</h3>
+                  <span className="shrink-0 bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1 rounded-full">Beginner</span>
+                </div>
+                <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">45 min · Beginner Level</p>
+                <p className="text-gray-700 text-sm font-semibold">Our beginner program is designed to take you from the very first steps of the Aleph-Bet to a confident understanding of Hebrew basics, specifically tailored for the conversion journey.</p>
+                <p className="text-gray-600 text-sm font-semibold">What you will gain:</p>
+                <ul className="flex flex-col gap-2">
+                  {[
+                    "Reading & Writing: Mastering the Aleph-Bet and achieving reading fluency with Nikud (vowels).",
+                    "Core Grammar: Understanding essential sentence structures, gender (M/F), and plurals.",
+                    "Liturgical Hebrew: Gaining familiarity with prayer structures and key vocabulary used in the Siddur.",
+                    "Confidence: Developing the skills needed to participate actively in Jewish life and community.",
+                  ].map((b) => (
+                    <li key={b} className="flex items-start gap-2 text-gray-600 text-sm leading-relaxed">
+                      <span className="mt-[6px] shrink-0 w-1.5 h-1.5 rounded-full bg-[#6B21A8]" />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+                <div className="flex flex-col gap-2 pt-2">
+                  <p className="text-gray-500 text-xs font-semibold uppercase tracking-wider">Pricing</p>
+                  {[
+                    { label: "Trial lesson (30 min)", price: "$18" },
+                    { label: "Single lesson", price: "$40" },
+                    { label: "8 lessons", price: "$305" },
+                    { label: "12 lessons", price: "$420" },
+                  ].map((row) => (
+                    <div key={row.label} className="flex items-center justify-between text-sm border-b border-gray-100 pb-1.5">
+                      <span className="text-gray-600">{row.label}</span>
+                      <span className="font-bold text-gray-900">{row.price}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-auto pt-4 border-t border-gray-100">
+                  <a href={HEBREW_TRIAL_URL} target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-[#fb7109] hover:bg-[#e86508] text-white font-semibold px-5 py-3 rounded-full text-sm tracking-wide transition-all shadow-md">
+                    Book your trial lesson here
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                  </a>
+                </div>
+              </motion.div>
+
             </div>
+          </div>
+          <div className="absolute -bottom-px left-0 right-0">
+            <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+              <path d="M0 0L60 12C120 24 240 48 360 56C480 64 600 56 720 48C840 40 960 32 1080 36C1200 40 1320 56 1380 64L1440 72V80H0Z" fill="#6B21A8" />
+            </svg>
           </div>
         </section>
 
-        {/* ── HOW IT WORKS — horizontal timeline ── */}
-        <section className="relative bg-[#0f0020] text-white py-28 px-6 overflow-hidden">
-          <div className="absolute -top-px left-0 right-0 rotate-180">
-            <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-              <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#BAE6FD" />
-            </svg>
-          </div>
-
-          <div className="max-w-5xl mx-auto pt-8">
+        {/* ── HOW IT WORKS ── */}
+        <section className="relative bg-[#6B21A8] text-white py-24 px-6 overflow-hidden">
+          <div className="max-w-5xl mx-auto">
             <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
               className="text-brand-gold text-xs font-semibold tracking-[0.2em] uppercase mb-4 text-center">
               Your journey, made simple
@@ -392,27 +427,21 @@ export default function ServicesPage() {
             </motion.h2>
 
             <div className="relative">
-              {/* Dashed connecting line (desktop) */}
               <div className="hidden sm:block absolute top-10 left-[calc(16.66%+1.5rem)] right-[calc(16.66%+1.5rem)] h-px z-0">
                 <div className="w-full h-full border-t-2 border-dashed border-brand-gold/25" />
               </div>
-
               <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-12 sm:gap-6">
                 {steps.map((step, i) => (
-                  <motion.div key={step.title}
-                    initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={reveal}
-                    className="flex flex-col items-center text-center gap-5"
-                  >
+                  <motion.div key={step.title} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={reveal}
+                    className="flex flex-col items-center text-center gap-5">
                     <div className="relative shrink-0 z-10">
-                      <div className="w-20 h-20 rounded-full border-2 border-brand-gold/50 bg-[#0f0020] flex items-center justify-center text-brand-gold">
+                      <div className="w-20 h-20 rounded-full border-2 border-brand-gold/50 bg-[#6B21A8] flex items-center justify-center text-brand-gold">
                         <step.icon />
                       </div>
                       <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-brand-gold text-white text-xs font-bold flex items-center justify-center shadow-md">
                         {step.step}
                       </span>
                     </div>
-
-                    {/* Mobile arrow */}
                     {i < steps.length - 1 && (
                       <div className="sm:hidden text-brand-gold/30">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
@@ -420,50 +449,79 @@ export default function ServicesPage() {
                         </svg>
                       </div>
                     )}
-
                     <div className="flex flex-col gap-2">
                       <h3 className="font-serif text-xl font-bold text-white">{step.title}</h3>
-                      <p className="text-white/60 text-sm leading-relaxed max-w-[220px] mx-auto">{step.desc}</p>
+                      <p className="text-white/70 text-sm leading-relaxed max-w-[220px] mx-auto">{step.desc}</p>
+                      {step.note && (
+                        <p className="text-brand-gold text-xs font-semibold mt-1">{step.note}</p>
+                      )}
                     </div>
                   </motion.div>
                 ))}
               </div>
             </div>
           </div>
-
           <div className="absolute -bottom-px left-0 right-0">
-            <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-              <path d="M0 0L60 12C120 24 240 48 360 56C480 64 600 56 720 48C840 40 960 32 1080 36C1200 40 1320 56 1380 64L1440 72V80H0Z" fill="#BAE6FD" />
+            <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+              <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#ffffff" />
             </svg>
           </div>
         </section>
 
-        {/* ── TESTIMONIAL ── */}
-        <section className="bg-[#BAE6FD] py-20 px-6">
-          <motion.div
-            initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
-            className="max-w-2xl mx-auto text-center flex flex-col items-center gap-5"
+        {/* ── TESTIMONIALS CAROUSEL ── */}
+        <section className="relative bg-white pt-8 pb-36 px-0 overflow-hidden">
+          <style>{`
+            @keyframes marquee-services {
+              from { transform: translateX(0); }
+              to { transform: translateX(-50%); }
+            }
+            .marquee-services-track {
+              animation: marquee-services 55s linear infinite;
+            }
+          `}</style>
+          <div className="max-w-6xl mx-auto px-6 mb-12">
+            <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
+              className="text-brand-gold text-xs font-semibold tracking-[0.25em] uppercase text-center mb-3">
+              What people say
+            </motion.p>
+            <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1} variants={reveal}
+              className="font-serif text-4xl sm:text-5xl font-bold text-gray-900 text-center">
+              Stories that <span className="text-brand-gold">inspire us</span>
+            </motion.h2>
+          </div>
+          <div
+            className="overflow-hidden"
+            onMouseEnter={e => (e.currentTarget.querySelector<HTMLElement>('.marquee-services-track')!.style.animationPlayState = 'paused')}
+            onMouseLeave={e => (e.currentTarget.querySelector<HTMLElement>('.marquee-services-track')!.style.animationPlayState = 'running')}
           >
-            <div className="w-10 h-0.5 bg-brand-gold/50" />
-            <p className="font-serif text-3xl sm:text-4xl italic text-gray-800 leading-relaxed">
-              &ldquo;This consultation gave me the exact clarity and confidence I needed to move forward.&rdquo;
-            </p>
-            <p className="text-gray-500 text-sm tracking-widest uppercase font-semibold">— Community Member</p>
-            <div className="w-10 h-0.5 bg-brand-gold/50" />
-          </motion.div>
+            <div className="marquee-services-track flex gap-5 w-max px-5">
+              {[...testimonials, ...testimonials].map((t, i) => (
+                <div key={i} className="w-80 shrink-0 bg-white border border-gray-200 hover:border-[#6B21A8]/40 rounded-2xl p-7 flex flex-col gap-4 transition-colors duration-300 shadow-sm">
+                  <span className="text-brand-gold text-3xl font-serif leading-none">&ldquo;</span>
+                  <p className="text-gray-700 text-sm leading-relaxed">{t.quote}</p>
+                  <span className="text-brand-gold text-3xl font-serif leading-none self-end">&rdquo;</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="absolute -bottom-px left-0 right-0">
+            <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
+              <path d="M0 0L60 12C120 24 240 48 360 56C480 64 600 56 720 48C840 40 960 32 1080 36C1200 40 1320 56 1380 64L1440 72V80H0Z" fill="#fb7109" />
+            </svg>
+          </div>
         </section>
 
         {/* ── CTA STRIP ── */}
-        <section className="bg-[#BAE6FD] py-20 px-6">
+        <section className="bg-[#fb7109] py-20 px-6">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
-            className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-8 rounded-3xl bg-[#1e0336] text-white p-10">
+            className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-8">
             <div>
-              <p className="text-brand-gold text-xs font-semibold tracking-[0.2em] uppercase mb-3">Ready to begin?</p>
-              <h2 className="font-serif text-3xl font-bold leading-snug mb-2">Start your journey today</h2>
-              <p className="text-white/65 text-sm max-w-md">Have a question before booking? Reach out and we&apos;ll help you find the right session.</p>
+              <p className="text-white/80 text-xs font-semibold tracking-[0.2em] uppercase mb-3">Ready to begin?</p>
+              <h2 className="font-serif text-3xl font-bold leading-snug mb-2 text-white">Start your journey today</h2>
+              <p className="text-white/80 text-sm max-w-md">Have a question before booking? Reach out and we&apos;ll help you find the right session.</p>
             </div>
             <Link href="/contact"
-              className="shrink-0 bg-brand-gold hover:bg-yellow-400 text-white font-semibold px-9 py-4 rounded-full text-sm tracking-wide transition-all shadow-lg">
+              className="shrink-0 bg-white hover:bg-gray-50 text-[#fb7109] font-semibold px-9 py-4 rounded-full text-sm tracking-wide transition-all shadow-lg">
               Contact Us
             </Link>
           </motion.div>
@@ -471,7 +529,6 @@ export default function ServicesPage() {
 
       </div>
 
-      {/* ── PAYMENT MODAL ── */}
       {modal && (
         <PaymentModal
           service={modal.service}

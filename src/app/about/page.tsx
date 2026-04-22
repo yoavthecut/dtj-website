@@ -42,7 +42,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
             className="font-serif text-5xl sm:text-6xl font-bold leading-tight"
           >
-            About <span className="italic text-brand-gold">Destined to be a Jew</span>
+            About <span className="text-brand-gold">Destined to be a Jew</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
@@ -159,7 +159,7 @@ export default function AboutPage() {
           <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1} variants={reveal}
             className="font-serif text-4xl sm:text-5xl font-bold text-gray-900 text-center mb-4 leading-tight">
             Everything you need,<br />
-            <span className="italic text-brand-purple">in one place</span>
+            <span className="text-brand-purple">in one place</span>
           </motion.h2>
           <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} custom={2} variants={reveal}
             className="text-gray-500 text-center max-w-md mx-auto mb-16 text-sm leading-relaxed">

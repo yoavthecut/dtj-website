@@ -76,7 +76,7 @@ export default function GuidePostClient({ guide }: { guide: GuideDetail }) {
       })
     : null;
 
-  const coverImageUrl = guide.mainImage
+  const coverImageUrl = guide.mainImage?.asset
     ? urlFor(guide.mainImage.asset).width(1200).height(630).fit("crop").url()
     : null;
 
@@ -166,13 +166,13 @@ export default function GuidePostClient({ guide }: { guide: GuideDetail }) {
             className="mt-16 pt-8 border-t border-gray-100"
           >
             <a
-              href="/guides"
+              href="/articles"
               className="text-brand-purple font-semibold text-sm hover:underline flex items-center gap-2"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-              Back to Guides
+              Back to Articles
             </a>
           </motion.div>
 

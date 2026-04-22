@@ -34,14 +34,15 @@ export const guide = defineType({
       name: "category",
       title: "Category",
       type: "string",
+      validation: (Rule) => Rule.required(),
       options: {
         list: [
-          { title: "Conversion", value: "Conversion" },
-          { title: "Hebrew", value: "Hebrew" },
-          { title: "Israel", value: "Israel" },
-          { title: "Community", value: "Community" },
-          { title: "Halacha", value: "Halacha" },
+          { title: "The Weekly Torah Portion", value: "The Weekly Torah Portion" },
+          { title: "Legal Aspects", value: "Legal Aspects" },
+          { title: "Guides", value: "Guides" },
+          { title: "Conversion Stories", value: "Conversion Stories" },
         ],
+        layout: "radio",
       },
     }),
     defineField({
