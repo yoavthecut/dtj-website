@@ -2,73 +2,17 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { reveal } from "@/lib/motion";
-
-const team = [
-  {
-    name: "Noa Amalia Arazi",
-    title: "CEO & Founder",
-    role: "English & Hebrew-Speaking Consultant",
-    photo: "/team/noa-amalia-arazi.jpg",
-  },
-  {
-    name: "Rabbi Yonatan Goldshmidt",
-    title: "Halachic Consultant",
-    role: null,
-    photo: "/team/rabbi-goldshmidt.jpg",
-  },
-  {
-    name: "Odelia Avnery",
-    title: "Hebrew Teacher",
-    role: null,
-    photo: "/team/odelia-avnery.jpg",
-  },
-  {
-    name: "Melissa Elbaz",
-    title: "Spanish-Speaking Consultant",
-    role: null,
-    photo: "/team/melissa-elbaz.jpg",
-  },
-  {
-    name: "Jacqueline Passy",
-    title: "Portuguese-Speaking Consultant",
-    role: null,
-    photo: "/team/jacqueline-passy.jpg",
-  },
-  {
-    name: "Nechama Ovadia",
-    title: "Immigration Attorney",
-    role: null,
-    photo: "/team/nechama-ovadia.jpg",
-  },
-  {
-    name: "Irena Rosenberg",
-    title: "Immigration Attorney",
-    role: null,
-    photo: "/team/irena-rosenberg.jpg",
-  },
-];
-
-function Placeholder({ name }: { name: string }) {
-  const initials = name
-    .split(" ")
-    .map((n) => n[0])
-    .slice(0, 2)
-    .join("");
-  return (
-    <div className="w-full aspect-square bg-gradient-to-br from-brand-purple to-[#1e0336] flex items-center justify-center rounded-2xl">
-      <span className="font-serif text-4xl font-bold text-white/40">{initials}</span>
-    </div>
-  );
-}
+import { team } from "@/lib/team";
 
 export default function TeamPage() {
   return (
     <div className="flex flex-col overflow-x-hidden">
 
       {/* ── HERO ── */}
-      <section className="relative bg-[#1e0336] text-white py-32 px-6 text-center overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_40%,_#6B21A8_0%,_transparent_70%)] opacity-50" />
+      <section className="relative bg-brand-purple text-white py-32 px-6 text-center overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_40%,_#9333EA_0%,_transparent_70%)] opacity-40" />
         <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-brand-gold to-transparent" />
 
         <div className="relative z-10 max-w-2xl mx-auto flex flex-col items-center gap-6">
@@ -94,49 +38,46 @@ export default function TeamPage() {
 
         <div className="absolute -bottom-px left-0 right-0">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#BAE6FD" />
+            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#ffffff" />
           </svg>
         </div>
       </section>
 
       {/* ── TEAM GRID ── */}
-      <section className="bg-[#BAE6FD] py-28 px-6">
+      <section className="bg-white py-28 px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12 justify-items-center">
             {team.map((member, i) => (
               <motion.div
-                key={member.name}
+                key={member.slug}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
                 custom={i}
                 variants={reveal}
-                className="group flex flex-col gap-4"
+                className="group flex flex-col items-center text-center w-full max-w-[200px]"
               >
-                {/* photo */}
-                <div className="overflow-hidden rounded-2xl">
-                  {member.photo ? (
+                <Link href={`/team/${member.slug}`} className="flex flex-col items-center gap-4 cursor-pointer">
+                  {/* circular photo */}
+                  <div className="relative w-36 h-36 sm:w-40 sm:h-40 rounded-full overflow-hidden ring-2 ring-transparent group-hover:ring-brand-gold transition-all duration-300 shadow-md group-hover:shadow-xl">
                     <Image
                       src={member.photo}
                       alt={member.name}
-                      width={400}
-                      height={400}
-                      className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-500"
+                      fill
+                      sizes="160px"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                  ) : (
-                    <Placeholder name={member.name} />
-                  )}
-                </div>
+                  </div>
 
-                {/* info */}
-                <div className="flex flex-col gap-1 pt-1">
-                  <div className="w-8 h-0.5 bg-brand-gold group-hover:w-12 transition-all duration-300" />
-                  <h3 className="font-serif text-xl font-bold text-gray-900 mt-3">{member.name}</h3>
-                  <p className="text-brand-purple text-sm font-semibold">{member.title}</p>
-                  {member.role && (
-                    <p className="text-gray-400 text-sm">{member.role}</p>
-                  )}
-                </div>
+                  {/* info */}
+                  <div className="flex flex-col items-center gap-1 pt-1">
+                    <h3 className="font-serif text-lg font-bold text-gray-900 group-hover:text-brand-purple transition-colors leading-snug">{member.name}</h3>
+                    <p className="text-brand-purple text-sm font-semibold">{member.title}</p>
+                    {member.role && (
+                      <p className="text-gray-400 text-xs">{member.role}</p>
+                    )}
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </div>
@@ -144,10 +85,13 @@ export default function TeamPage() {
       </section>
 
       {/* ── JOIN CTA ── */}
-      <section className="relative bg-[#0f0020] text-white py-24 px-6 text-center overflow-hidden">
+      <section className="relative bg-gradient-to-b from-[#6B21A8] via-[#581c87] to-[#3b0764] text-white py-24 px-6 text-center overflow-hidden">
+        {/* atmospheric glow — soft warm highlight at top, deep shadow at bottom */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_45%_at_50%_0%,_rgba(168,85,247,0.35)_0%,_transparent_70%)] pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#1e0336]/40 to-transparent pointer-events-none" />
         <div className="absolute -top-px left-0 right-0 rotate-180">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#BAE6FD" />
+            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#ffffff" />
           </svg>
         </div>
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}

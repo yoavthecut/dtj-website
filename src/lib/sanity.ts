@@ -86,3 +86,31 @@ export async function getGuideBySlug(slug: string): Promise<GuideDetail | null> 
 export async function getAllGuideSlugs(): Promise<{ slug: string }[]> {
   return client.fetch(ALL_GUIDE_SLUGS_QUERY);
 }
+
+// ─── Media Articles ──────────────────────────────────────────────────────────
+
+export type MediaArticleCard = {
+  _id: string;
+  title: string;
+  outlet: string;
+  url: string;
+  publishedAt: string | null;
+  excerpt: string | null;
+  mainImage: { asset: { _ref: string }; alt?: string } | null;
+};
+
+export const ALL_MEDIA_ARTICLES_QUERY = `
+  *[_type == "mediaArticle"] | order(publishedAt desc) {
+    _id,
+    title,
+    outlet,
+    url,
+    publishedAt,
+    excerpt,
+    mainImage { asset, alt }
+  }
+`;
+
+export async function getAllMediaArticles(): Promise<MediaArticleCard[]> {
+  return client.fetch(ALL_MEDIA_ARTICLES_QUERY);
+}

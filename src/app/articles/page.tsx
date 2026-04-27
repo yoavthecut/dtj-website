@@ -8,10 +8,10 @@ import { reveal } from "@/lib/motion";
 import { getAllGuides, urlFor, type GuideCard } from "@/lib/sanity";
 
 const CATEGORIES = [
-  { key: "The Weekly Torah Portion", label: "The Weekly Torah Portion" },
-  { key: "Legal Aspects", label: "Legal Aspects" },
-  { key: "Guides", label: "Guides" },
-  { key: "Conversion Stories", label: "Conversion Stories" },
+  { key: "Guides", label: "Guides", slug: "guides" },
+  { key: "Legal Aspects", label: "Legal Aspects", slug: "legal-aspects" },
+  { key: "Conversion Stories", label: "Conversion Stories", slug: "conversion-stories" },
+  { key: "The Weekly Torah Portion", label: "The Weekly Torah Portion", slug: "weekly-torah-portion" },
 ] as const;
 
 function ArticleCard({ guide, index }: { guide: GuideCard; index: number }) {
@@ -78,10 +78,12 @@ function ArticleCard({ guide, index }: { guide: GuideCard; index: number }) {
 
 function CategorySection({
   label,
+  slug,
   articles,
   sectionIndex,
 }: {
   label: string;
+  slug: string;
   articles: GuideCard[];
   sectionIndex: number;
 }) {
@@ -89,12 +91,13 @@ function CategorySection({
 
   return (
     <motion.div
+      id={slug}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-80px" }}
       custom={sectionIndex}
       variants={reveal}
-      className="mb-16"
+      className="mb-16 scroll-mt-24"
     >
       <div className="flex items-center gap-4 mb-8">
         <h2 className="font-serif text-2xl font-bold text-gray-900">{label}</h2>
@@ -103,12 +106,42 @@ function CategorySection({
           {articles.length} {articles.length === 1 ? "article" : "articles"}
         </span>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {articles.map((article, i) => (
           <ArticleCard key={article._id} guide={article} index={i} />
         ))}
       </div>
     </motion.div>
+  );
+}
+
+function CategorySidebar({ items }: { items: { key: string; label: string; slug: string; count: number }[] }) {
+  return (
+    <aside className="lg:sticky lg:top-24 lg:self-start">
+      <p className="text-brand-purple text-xs font-bold tracking-[0.2em] uppercase mb-4">Categories</p>
+      <nav className="flex flex-col gap-1 border-l border-gray-200">
+        {items.map((cat) => (
+          <a
+            key={cat.key}
+            href={`#${cat.slug}`}
+            className={`group flex items-center justify-between gap-3 -ml-px pl-4 pr-3 py-2.5 border-l-2 text-sm font-medium transition-all ${
+              cat.count > 0
+                ? "border-transparent text-gray-700 hover:border-brand-purple hover:text-brand-purple hover:bg-purple-50/40 cursor-pointer"
+                : "border-transparent text-gray-300 cursor-not-allowed pointer-events-none"
+            }`}
+          >
+            <span className="leading-snug">{cat.label}</span>
+            <span
+              className={`shrink-0 text-xs font-semibold px-2 py-0.5 rounded-full ${
+                cat.count > 0 ? "bg-purple-50 text-brand-purple group-hover:bg-brand-purple group-hover:text-white" : "bg-gray-100 text-gray-300"
+              }`}
+            >
+              {cat.count}
+            </span>
+          </a>
+        ))}
+      </nav>
+    </aside>
   );
 }
 
@@ -193,24 +226,38 @@ export default function ArticlesPage() {
       {/* ── CONTENT ── */}
       <section className="bg-white py-24 px-6">
         <div className="max-w-6xl mx-auto">
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1, 2, 3].map((n) => (
-                <div key={n} className="rounded-2xl bg-gray-200 animate-pulse h-80" />
-              ))}
+          <div className="grid grid-cols-1 lg:grid-cols-[14rem_1fr] gap-10 lg:gap-14">
+            <CategorySidebar
+              items={grouped.map((cat) => ({
+                key: cat.key,
+                label: cat.label,
+                slug: cat.slug,
+                count: cat.items.length,
+              }))}
+            />
+
+            <div>
+              {loading ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {[1, 2, 3, 4].map((n) => (
+                    <div key={n} className="rounded-2xl bg-gray-200 animate-pulse h-80" />
+                  ))}
+                </div>
+              ) : !hasAny ? (
+                <EmptyState />
+              ) : (
+                grouped.map((cat, i) => (
+                  <CategorySection
+                    key={cat.key}
+                    label={cat.label}
+                    slug={cat.slug}
+                    articles={cat.items}
+                    sectionIndex={i}
+                  />
+                ))
+              )}
             </div>
-          ) : !hasAny ? (
-            <EmptyState />
-          ) : (
-            grouped.map((cat, i) => (
-              <CategorySection
-                key={cat.key}
-                label={cat.label}
-                articles={cat.items}
-                sectionIndex={i}
-              />
-            ))
-          )}
+          </div>
         </div>
       </section>
 

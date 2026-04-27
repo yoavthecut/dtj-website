@@ -8,7 +8,7 @@ const sections = [
     title: "1. General Use & User Accounts",
     content: (
       <p>
-        To access specific features, such as our Monthly Webinar Subscription, you must create a user account.
+        To access specific features and personalized resources, you may be required to create a user account.
         You are responsible for maintaining the confidentiality of your account credentials.
       </p>
     ),
@@ -19,7 +19,6 @@ const sections = [
       <ul>
         <li><strong>1:1 Consultations &amp; Support:</strong> 45-minute video sessions ($35).</li>
         <li><strong>Hebrew Classes:</strong> 45-minute instructional sessions. Pricing varies based on the selected lesson package. Complete details are available on the dedicated Lesson Booking page.</li>
-        <li><strong>Monthly Webinar Subscription:</strong> A recurring $12/month subscription (via PayPal) providing access to live weekly webinars and our VOD library.</li>
         <li><strong>Donations:</strong> Voluntary charitable contributions. Tax-deductibility is subject to your local jurisdiction&apos;s laws (typically tax-deductible globally, excluding Israel).</li>
       </ul>
     ),
@@ -30,7 +29,6 @@ const sections = [
       <>
         <p><strong>Scheduling:</strong> Both 1:1 Consultations and Hebrew Classes must be scheduled at least 48 hours in advance.</p>
         <p><strong>Cancellations &amp; Refunds:</strong> A full refund is available for sessions cancelled with at least 48 hours&apos; notice. Any cancellation submitted less than 48 hours in advance, or a failure to appear for a scheduled session, shall result in the forfeiture of the session fee.</p>
-        <p><strong>Subscriptions:</strong> Webinar subscriptions can be canceled at any time, but past payments are non-refundable. Access is revoked upon the end of the current billing cycle.</p>
       </>
     ),
   },
@@ -64,7 +62,7 @@ const sections = [
     title: "6. Intellectual Property",
     content: (
       <p>
-        All website content, including webinar recordings, VOD library materials, and written guides, is the exclusive
+        All website content, including written guides, is the exclusive
         property of Destined to be a Jew. Unauthorized distribution or recording is prohibited.
       </p>
     ),

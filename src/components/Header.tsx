@@ -4,9 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const JPOST_URL =
-  "https://www.jpost.com/judaism/article-800567?fbclid=IwZXh0bgNhZW0CMTEAAR0bCwdn6Zxar7WyYwO__KqMXVIuxsFQs-O397aYk3L5uTHxVRnrhw3aAJo_aem_AZtAzFJWftlWTwUiQCR1lrKjhsjkJNf6bo0v9C_npyFrfSxuGt5h7KN3ATbG-HFBhzPotDajMXAe25NSOMxNxivR";
-
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
@@ -14,7 +11,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="grid grid-cols-3 items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <div className="rounded-full border-2 border-brand-gold p-0.5">
@@ -32,7 +29,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-6 text-base font-medium text-gray-700">
+          <nav className="hidden md:flex items-center justify-center gap-6 text-base font-medium text-gray-700">
             {/* About dropdown */}
             <div
               className="relative"
@@ -59,14 +56,12 @@ export default function Header() {
                   >
                     Our Team
                   </Link>
-                  <a
-                    href={JPOST_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    href="/media"
                     className="block px-4 py-2 hover:bg-purple-50 hover:text-brand-purple transition-colors"
                   >
                     In the Media
-                  </a>
+                  </Link>
                 </div>
               )}
             </div>
@@ -88,44 +83,30 @@ export default function Header() {
             </Link>
           </nav>
 
-          {/* Desktop CTAs */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* Right side: Donate (desktop) + hamburger (mobile) */}
+          <div className="flex items-center justify-end gap-3">
             <Link
               href="/donate"
-              className="bg-brand-gold hover:bg-brand-gold/90 text-white font-semibold px-4 py-2 rounded-full text-sm transition-colors"
+              className="hidden md:inline-flex bg-brand-gold hover:bg-brand-gold/90 text-white font-semibold px-4 py-2 rounded-full text-sm transition-colors"
             >
               Donate
             </Link>
-            <Link
-              href="/signup"
-              className="border border-brand-purple text-brand-purple hover:bg-brand-purple hover:text-white font-semibold px-4 py-2 rounded-full text-sm transition-colors"
+            <button
+              className="md:hidden p-2 rounded-md text-gray-600 hover:text-brand-purple"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu"
             >
-              Sign Up
-            </Link>
-            <Link
-              href="/signin"
-              className="text-brand-purple hover:underline font-medium text-sm"
-            >
-              Sign In
-            </Link>
+              {mobileOpen ? (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
           </div>
-
-          {/* Mobile hamburger */}
-          <button
-            className="md:hidden p-2 rounded-md text-gray-600 hover:text-brand-purple"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? (
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
-          </button>
         </div>
       </div>
 
@@ -139,15 +120,13 @@ export default function Header() {
           <Link href="/team" className="pl-2 hover:text-brand-purple" onClick={() => setMobileOpen(false)}>
             Our Team
           </Link>
-          <a
-            href={JPOST_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/media"
             className="pl-2 hover:text-brand-purple"
             onClick={() => setMobileOpen(false)}
           >
             In the Media
-          </a>
+          </Link>
           <Link href="/services" className="hover:text-brand-purple" onClick={() => setMobileOpen(false)}>
             Services
           </Link>
@@ -170,20 +149,6 @@ export default function Header() {
               onClick={() => setMobileOpen(false)}
             >
               Donate
-            </Link>
-            <Link
-              href="/signup"
-              className="border border-brand-purple text-brand-purple font-semibold px-4 py-2 rounded-full text-sm flex-1 text-center"
-              onClick={() => setMobileOpen(false)}
-            >
-              Sign Up
-            </Link>
-            <Link
-              href="/signin"
-              className="text-brand-purple font-medium text-sm self-center"
-              onClick={() => setMobileOpen(false)}
-            >
-              Sign In
             </Link>
           </div>
         </div>

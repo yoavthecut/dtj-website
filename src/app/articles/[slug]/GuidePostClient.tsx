@@ -9,7 +9,7 @@ import { urlFor, type GuideDetail } from "@/lib/sanity";
 const portableTextComponents: PortableTextComponents = {
   block: {
     normal: ({ children }) => (
-      <p className="text-gray-500 leading-relaxed mb-6">{children}</p>
+      <p className="text-gray-700 leading-relaxed mb-6">{children}</p>
     ),
     h2: ({ children }) => (
       <h2 className="font-serif text-3xl font-bold text-gray-900 mt-10 mb-4 leading-tight">
@@ -84,8 +84,8 @@ export default function GuidePostClient({ guide }: { guide: GuideDetail }) {
     <div className="flex flex-col overflow-x-hidden">
 
       {/* ── HERO ── */}
-      <section className="relative bg-[#1e0336] text-white py-32 px-6 text-center overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_40%,_#6B21A8_0%,_transparent_70%)] opacity-50" />
+      <section className="relative bg-brand-purple text-white py-32 px-6 text-center overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_40%,_#9333EA_0%,_transparent_70%)] opacity-40" />
         <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-brand-gold to-transparent" />
 
         <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center gap-6">
@@ -119,13 +119,13 @@ export default function GuidePostClient({ guide }: { guide: GuideDetail }) {
 
         <div className="absolute -bottom-px left-0 right-0">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#BAE6FD" />
+            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#ffffff" />
           </svg>
         </div>
       </section>
 
       {/* ── ARTICLE BODY ── */}
-      <section className="bg-[#BAE6FD] py-24 px-6">
+      <section className="bg-white py-24 px-6">
         <div className="max-w-3xl mx-auto">
 
           {coverImageUrl && (

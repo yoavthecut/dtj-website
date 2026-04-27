@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 import { Users, ShieldX, Clock4, Banknote, CloudRain, BookOpen } from "lucide-react";
-import Spline from "@splinetool/react-spline";
 import { reveal } from "@/lib/motion";
 
 const painPoints = [
@@ -19,8 +18,8 @@ const painPoints = [
 const stats = [
   { number: "50+", label: "Journeys guided" },
   { number: "16K+", label: "Global followers" },
-  { number: "20", label: "Countries reached" },
-  { number: "10", label: "Languages spoken" },
+  { number: "20+", label: "Countries reached" },
+  { number: "10+", label: "Languages spoken" },
 ];
 
 const testimonials = [
@@ -49,7 +48,6 @@ export default function Home() {
   const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [contactForm, setContactForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [contactStatus, setContactStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [splineLoaded, setSplineLoaded] = useState(false);
 
   async function handleNewsletter(e: React.FormEvent) {
     e.preventDefault();
@@ -92,20 +90,21 @@ export default function Home() {
           HERO — full viewport, dark purple
       ══════════════════════════════ */}
       <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 bg-[#1e0336] overflow-hidden">
-        {/* Spline 3D background */}
-        <div
-          className="absolute inset-0 pointer-events-none scale-125 transition-opacity duration-[1800ms] ease-in"
-          style={{ opacity: splineLoaded ? 1 : 0 }}
-        >
-          <Spline
-            scene="https://prod.spline.design/pWeoU-DIzEd1eM-7/scene.splinecode"
-            onLoad={() => setSplineLoaded(true)}
-          />
-        </div>
-        {/* layered glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,_#6B21A8_0%,_transparent_70%)] opacity-60" />
+        {/* World map video background */}
+        <video
+          src="/worldmap.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+        />
+        {/* legibility scrim: radial dark center + brand-purple bottom fade */}
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_70%_60%_at_50%_55%,_rgba(30,3,54,0.78)_0%,_rgba(30,3,54,0.55)_45%,_rgba(30,3,54,0.15)_80%,_transparent_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-48 pointer-events-none bg-gradient-to-t from-[#1e0336] via-[#1e0336]/70 to-transparent" />
         {/* gold top line */}
-        <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-brand-gold to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-brand-gold to-transparent z-10" />
 
 
         <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center gap-8">
@@ -113,7 +112,7 @@ export default function Home() {
             initial={{ opacity: 0, letterSpacing: "0.1em" }}
             animate={{ opacity: 1, letterSpacing: "0.25em" }}
             transition={{ duration: 1 }}
-            className="text-brand-gold text-xs font-semibold uppercase tracking-[0.25em]"
+            className="text-brand-gold-light text-xs font-semibold uppercase tracking-[0.25em] [text-shadow:0_2px_12px_rgba(30,3,54,0.9)]"
           >
             Supporting converts to Judaism worldwide
           </motion.span>
@@ -122,7 +121,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.15 }}
-            className="font-serif text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight text-center"
+            className="font-serif text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight text-center [text-shadow:0_4px_24px_rgba(30,3,54,0.85)]"
           >
             <span className="block">Bringing Jewish souls</span>
             <span className="block text-brand-gold">back home</span>
@@ -132,7 +131,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-white/80 text-lg sm:text-xl max-w-lg leading-relaxed"
+            className="text-white/90 text-lg sm:text-xl max-w-lg leading-relaxed [text-shadow:0_2px_16px_rgba(30,3,54,0.85)]"
           >
             Converting to Judaism doesn&apos;t have to be a difficult and lonely process.
           </motion.p>
@@ -143,7 +142,7 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.45 }}
             className="flex flex-wrap gap-4 justify-center"
           >
-            <Link href="/services" className="bg-brand-gold hover:bg-yellow-400 text-white font-semibold px-10 py-4 rounded-full text-sm tracking-wide transition-all shadow-[0_0_30px_rgba(245,158,11,0.3)] hover:shadow-[0_0_40px_rgba(245,158,11,0.5)]">
+            <Link href="/services" className="bg-brand-gold hover:bg-yellow-400 text-white font-semibold px-10 py-4 rounded-full text-lg tracking-wide transition-all shadow-[0_0_30px_rgba(245,158,11,0.3)] hover:shadow-[0_0_40px_rgba(245,158,11,0.5)]">
               Start Your Journey
             </Link>
           </motion.div>
@@ -161,7 +160,14 @@ export default function Home() {
         {/* wave bottom */}
         <div className="absolute -bottom-px left-0 right-0">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#fb7109" />
+            <defs>
+              <linearGradient id="orangeWaveGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#fb7109" />
+                <stop offset="50%" stopColor="#f59e0b" />
+                <stop offset="100%" stopColor="#fb7109" />
+              </linearGradient>
+            </defs>
+            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="url(#orangeWaveGrad)" />
           </svg>
         </div>
       </section>
@@ -169,7 +175,7 @@ export default function Home() {
       {/* ══════════════════════════════
           STATS BAR
       ══════════════════════════════ */}
-      <section className="bg-[#fb7109] pt-4 pb-16 px-6">
+      <section className="bg-gradient-to-r from-[#fb7109] via-[#f59e0b] to-[#fb7109] pt-4 pb-16 px-6">
         <div className="max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
           {stats.map((s, i) => (
             <motion.div key={s.label} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={reveal} className="flex flex-col items-center gap-1">
@@ -183,11 +189,21 @@ export default function Home() {
       {/* ══════════════════════════════
           PAIN POINTS
       ══════════════════════════════ */}
-      <section className="relative bg-[#6B21A8] text-white py-28 px-6 overflow-hidden">
+      <section className="relative bg-gradient-to-b from-[#6B21A8] via-[#581c87] to-[#3b0764] text-white py-28 px-6 overflow-hidden">
+        {/* atmospheric glow — soft warm highlight at top, deep shadow at bottom */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_45%_at_50%_0%,_rgba(168,85,247,0.35)_0%,_transparent_70%)] pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#1e0336]/40 to-transparent pointer-events-none" />
         {/* wave top */}
         <div className="absolute -top-px left-0 right-0 rotate-180">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#fb7109" />
+            <defs>
+              <linearGradient id="orangeWaveGrad2" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#fb7109" />
+                <stop offset="50%" stopColor="#f59e0b" />
+                <stop offset="100%" stopColor="#fb7109" />
+              </linearGradient>
+            </defs>
+            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="url(#orangeWaveGrad2)" />
           </svg>
         </div>
 
@@ -197,12 +213,12 @@ export default function Home() {
             The reality of conversion
           </motion.p>
           <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1} variants={reveal}
-            className="font-serif text-4xl sm:text-5xl font-bold text-center mb-4 leading-tight">
+            className="font-serif text-4xl sm:text-5xl font-bold text-center mb-4 leading-tight text-[#F5F3FF]">
             Meaningful but complicated journey
           </motion.h2>
           <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} custom={2} variants={reveal}
-            className="text-white/75 text-center max-w-xl mx-auto mb-20 text-lg">
-            People who choose Judaism often face the same obstacles — often alone.
+            className="text-[#DDD6FE]/85 text-center max-w-xl mx-auto mb-20 text-lg leading-relaxed">
+            People who choose Judaism often face similar obstacles — alone.
           </motion.p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -217,8 +233,8 @@ export default function Home() {
                 <div className="w-11 h-11 rounded-xl bg-brand-gold/15 flex items-center justify-center group-hover:bg-brand-gold/25 transition-colors duration-300">
                   <p.icon className="w-5 h-5 text-brand-gold" strokeWidth={1.75} />
                 </div>
-                <h3 className="font-serif text-xl font-bold text-white group-hover:text-brand-gold transition-colors duration-300 leading-snug relative z-10">{p.title}</h3>
-                <p className="text-white/60 text-sm leading-relaxed relative z-10 group-hover:text-white/80 transition-colors duration-300">{p.desc}</p>
+                <h3 className="font-serif text-xl font-bold text-[#F5F3FF] group-hover:text-brand-gold transition-colors duration-300 leading-snug relative z-10">{p.title}</h3>
+                <p className="text-[#DDD6FE]/75 text-sm leading-relaxed relative z-10 group-hover:text-[#DDD6FE] transition-colors duration-300">{p.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -226,10 +242,10 @@ export default function Home() {
           {/* pivot */}
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
             className="mt-12 max-w-2xl mx-auto text-center">
-            <h3 className="font-serif text-3xl sm:text-4xl font-bold mb-6">
+            <h3 className="font-serif text-3xl sm:text-4xl font-bold mb-6 text-[#F5F3FF]">
               And that&apos;s why we&apos;re here.
             </h3>
-            <p className="text-white/75 text-lg leading-relaxed mb-10">
+            <p className="text-[#DDD6FE]/85 text-lg leading-relaxed mb-10">
               Destined to be a Jew was founded to help anyone who wishes to convert to Judaism - wherever you are!
             </p>
             <Link href="/about" className="inline-flex items-center gap-3 text-brand-gold font-semibold text-sm tracking-wide hover:gap-4 transition-all">
@@ -254,17 +270,21 @@ export default function Home() {
       ══════════════════════════════ */}
       <section className="relative bg-white py-28 px-6 overflow-hidden">
         <div className="relative z-10 max-w-6xl mx-auto">
-          <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
-            className="text-brand-gold text-xs font-semibold tracking-[0.2em] uppercase mb-4 text-center">
-            What we offer
-          </motion.p>
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
+            className="flex items-center justify-center gap-3 mb-5">
+            <span className="h-px w-8 bg-brand-purple/40" aria-hidden="true" />
+            <p className="text-brand-purple text-sm sm:text-base font-bold tracking-[0.2em] uppercase">
+              What we offer
+            </p>
+            <span className="h-px w-8 bg-brand-purple/40" aria-hidden="true" />
+          </motion.div>
           <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1} variants={reveal}
-            className="font-serif text-4xl sm:text-5xl font-bold text-gray-900 text-center mb-4 leading-tight">
+            className="font-serif text-4xl sm:text-5xl font-bold text-gray-900 text-center mb-5 leading-tight">
             Everything you need,<br />
             <span className="text-brand-purple">in one place</span>
           </motion.h2>
           <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} custom={2} variants={reveal}
-            className="text-gray-500 text-center max-w-md mx-auto mb-16 text-sm leading-relaxed">
+            className="text-gray-700 text-center max-w-xl mx-auto mb-16 text-lg leading-relaxed">
             From your first question to your final step - we&apos;re by your side through it all.
           </motion.p>
 
@@ -278,13 +298,13 @@ export default function Home() {
                 <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(ellipse_80%_80%_at_50%_120%,_rgba(245,158,11,0.14)_0%,_transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-brand-gold to-transparent opacity-0 group-hover:opacity-70 transition-opacity duration-300" />
 
-                <span className="font-serif text-4xl font-bold text-white/10 group-hover:text-brand-gold/30 transition-colors duration-300 leading-none select-none">
+                <span className="font-serif text-5xl font-bold text-white/15 group-hover:text-brand-gold/40 transition-colors duration-300 leading-none select-none">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className="font-serif text-xl font-bold text-white group-hover:text-brand-gold transition-colors duration-300 leading-snug relative z-10">
+                <h3 className="font-serif text-2xl font-bold text-white group-hover:text-brand-gold transition-colors duration-300 leading-snug relative z-10">
                   {s.title}
                 </h3>
-                <p className="text-white/60 text-sm leading-relaxed relative z-10 group-hover:text-white/80 transition-colors duration-300">
+                <p className="text-white/90 text-base leading-relaxed relative z-10 transition-colors duration-300">
                   {s.desc}
                 </p>
               </motion.div>
@@ -322,15 +342,32 @@ export default function Home() {
             <span className="text-brand-gold text-3xl font-serif leading-none">&rdquo;</span>
             <div className="flex-1 h-px bg-gradient-to-l from-transparent to-brand-gold opacity-50" />
           </div>
-          <p className="text-brand-gold text-xs font-semibold tracking-[0.2em] uppercase">Leviticus 19:33–34</p>
+          <p className="text-brand-purple text-sm sm:text-base font-bold tracking-[0.2em] uppercase">Leviticus 19:33–34</p>
         </motion.div>
 
-        {/* wave bottom → into image section */}
-        <div className="absolute -bottom-px left-0 right-0">
-          <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#ffffff" />
-          </svg>
-        </div>
+      </section>
+
+      {/* ══════════════════════════════
+          COLLABORATION — inline trust band
+      ══════════════════════════════ */}
+      <section className="relative bg-white py-8 px-6">
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
+          className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10">
+          <div className="text-center">
+            <p className="text-brand-purple text-xs sm:text-sm font-bold tracking-[0.2em] uppercase mb-1">
+              In collaboration with
+            </p>
+            <p className="font-serif text-base sm:text-lg font-semibold text-gray-900">
+              Conference of European Rabbis (CER)
+            </p>
+          </div>
+          <img
+            src="/rabigroup.jpg"
+            alt="Conference of European Rabbis (CER)"
+            className="rounded-lg shadow-sm h-20 sm:h-24 w-auto object-cover"
+            loading="lazy"
+          />
+        </motion.div>
       </section>
 
       {/* ══════════════════════════════
@@ -346,20 +383,20 @@ export default function Home() {
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
           className="relative z-10 max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-10 bg-white/80 backdrop-blur-sm border border-white/60 rounded-3xl p-10 shadow-lg">
           <div className="max-w-md">
-            <p className="text-brand-gold text-xs font-semibold tracking-[0.2em] uppercase mb-3">Free resources</p>
+            <p className="text-brand-purple text-sm sm:text-base font-bold tracking-[0.2em] uppercase mb-3">Free resources</p>
             <h2 className="font-serif text-3xl font-bold text-gray-900 mb-3 leading-snug">
               All the information you need for conversion
             </h2>
-            <p className="text-gray-500 text-sm">Written by our team — available to everyone, for free.</p>
+            <p className="text-gray-700 text-base">Written by our team — available to everyone, for free.</p>
           </div>
           <Link href="/articles" className="shrink-0 bg-brand-purple hover:bg-brand-purple-dark text-white font-semibold px-9 py-4 rounded-full text-sm tracking-wide transition-all shadow-lg hover:shadow-brand-purple/30">
             Browse Articles
           </Link>
         </motion.div>
-        {/* wave bottom → into testimonials dark section */}
+        {/* wave bottom → into testimonials sky-blue section */}
         <div className="absolute -bottom-px left-0 right-0">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#6B21A8" />
+            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#E0F2FE" />
           </svg>
         </div>
       </section>
@@ -367,7 +404,7 @@ export default function Home() {
       {/* ══════════════════════════════
           TESTIMONIALS — auto-scroll marquee
       ══════════════════════════════ */}
-      <section className="relative bg-[#6B21A8] pt-16 pb-36 px-0 overflow-hidden">
+      <section className="relative bg-gradient-to-b from-[#E0F2FE] via-[#BAE6FD] to-[#7DD3FC] pt-16 pb-36 px-0 overflow-hidden">
         <style>{`
           @keyframes marquee {
             from { transform: translateX(0); }
@@ -378,14 +415,18 @@ export default function Home() {
           }
         `}</style>
 
+        {/* atmospheric glow — soft sky highlight at center, deeper sky shadow at bottom */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_50%_at_50%_55%,_rgba(255,255,255,0.35)_0%,_transparent_70%)] pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#38BDF8]/30 to-transparent pointer-events-none" />
+
         <div className="relative z-10">
           <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
-            className="text-brand-gold text-xs font-semibold tracking-[0.25em] uppercase text-center mb-3 px-6">
+            className="text-brand-purple text-sm sm:text-base font-bold tracking-[0.25em] uppercase text-center mb-3 px-6">
             What people say
           </motion.p>
           <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1} variants={reveal}
-            className="font-serif text-4xl sm:text-5xl font-bold text-white text-center mb-14 px-6">
-            Stories that <span className="text-brand-gold">inspire us</span>
+            className="font-serif text-4xl sm:text-5xl font-bold text-gray-900 text-center mb-14 px-6 leading-tight">
+            From the Hearts of <span className="text-brand-purple">Our Community</span>
           </motion.h2>
 
 
@@ -399,20 +440,20 @@ export default function Home() {
               {[...testimonials, ...testimonials].map((t, i) => (
                 <div
                   key={i}
-                  className="w-80 shrink-0 bg-white/8 backdrop-blur-sm border border-white/10 hover:border-brand-gold/40 rounded-2xl p-7 flex flex-col gap-4 transition-colors duration-300 min-h-56"
+                  className="w-80 shrink-0 bg-white border border-gray-200 hover:border-brand-purple/40 rounded-2xl p-7 flex flex-col gap-4 transition-colors duration-300 min-h-56 shadow-sm hover:shadow-md"
                 >
-                  <span className="text-brand-gold text-3xl font-serif leading-none">&ldquo;</span>
-                  <p className="text-white/80 text-sm leading-relaxed">{t.quote}</p>
+                  <span className="text-brand-purple text-3xl font-serif leading-none">&ldquo;</span>
+                  <p className="text-gray-700 text-base leading-relaxed">{t.quote}</p>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* wave bottom */}
+        {/* wave bottom → into white whatsapp/donate section */}
         <div className="absolute -bottom-px left-0 right-0">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#BAE6FD" />
+            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#ffffff" />
           </svg>
         </div>
       </section>
@@ -420,8 +461,8 @@ export default function Home() {
       {/* ══════════════════════════════
           WHATSAPP + DONATE — side by side
       ══════════════════════════════ */}
-      <section className="bg-[#BAE6FD] pb-20 px-6">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 pt-16">
+      <section className="bg-white py-20 px-6">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
           {/* WhatsApp */}
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
             className="bg-[#6B21A8] text-white rounded-3xl p-10 flex flex-col gap-6">
@@ -429,9 +470,9 @@ export default function Home() {
             <h3 className="font-serif text-2xl font-bold leading-snug">
               Join a global community of people just like you
             </h3>
-            <p className="text-white/65 text-sm">20 countries · 10 languages · one big family.</p>
+            <p className="text-white/65 text-sm">20+ countries · 10+ languages · one big family.</p>
             <a href="https://chat.whatsapp.com/HPhHBNdkzE5Fq4lg4Xe809" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#fb7109] hover:bg-[#e86508] text-white font-semibold px-7 py-3 rounded-full text-sm w-fit transition-colors">
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-[#fb7109] via-[#f59e0b] to-[#fb7109] hover:brightness-110 text-white font-semibold px-7 py-3 rounded-full text-sm w-fit transition-all">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
               </svg>
@@ -441,14 +482,14 @@ export default function Home() {
 
           {/* Donate */}
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1} variants={reveal}
-            className="bg-brand-gold text-white rounded-3xl p-10 flex flex-col gap-6">
-            <p className="text-white/70 text-xs font-semibold tracking-[0.2em] uppercase">Make an impact</p>
+            className="bg-[#6B21A8] text-white rounded-3xl p-10 flex flex-col gap-6">
+            <p className="text-brand-gold text-xs font-semibold tracking-[0.2em] uppercase">Make an impact</p>
             <h3 className="font-serif text-2xl font-bold leading-snug">
               Support our mission
             </h3>
-            <p className="text-white/80 text-sm">Be a partner in their journey home - Join us in strengthening the future of the Jewish people.</p>
+            <p className="text-white/65 text-sm">Be a partner in their journey home - Join us in strengthening the future of the Jewish people.</p>
             <Link href="/donate"
-              className="inline-flex items-center gap-2 bg-[#6B21A8] hover:bg-[#4C1D95] text-white font-semibold px-7 py-3 rounded-full text-sm w-fit transition-colors">
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-[#fb7109] via-[#f59e0b] to-[#fb7109] hover:brightness-110 text-white font-semibold px-7 py-3 rounded-full text-sm w-fit transition-all">
               Donate Now
             </Link>
           </motion.div>
@@ -461,7 +502,7 @@ export default function Home() {
       <section className="relative bg-[#6B21A8] pt-20 pb-24 px-6 text-white overflow-hidden">
         <div className="absolute -top-px left-0 right-0">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
-            <path d="M0 0L60 12C120 24 240 48 360 56C480 64 600 56 720 48C840 40 960 32 1080 36C1200 40 1320 56 1380 64L1440 72V0H0Z" fill="#BAE6FD" />
+            <path d="M0 0L60 12C120 24 240 48 360 56C480 64 600 56 720 48C840 40 960 32 1080 36C1200 40 1320 56 1380 64L1440 72V0H0Z" fill="#ffffff" />
           </svg>
         </div>
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}

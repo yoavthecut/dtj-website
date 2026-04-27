@@ -50,7 +50,7 @@ function AccordionItem({ item, index, open, onToggle }: {
       viewport={{ once: true }}
       custom={index}
       variants={reveal}
-      className="border-b border-gray-900 last:border-0"
+      className="border-b border-gray-200 last:border-0"
     >
       <button
         onClick={onToggle}
@@ -122,8 +122,8 @@ export default function FAQPage() {
     <div className="flex flex-col overflow-x-hidden">
 
       {/* ── HERO ── */}
-      <section className="relative bg-[#1e0336] text-white py-32 px-6 text-center overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_40%,_#6B21A8_0%,_transparent_70%)] opacity-50" />
+      <section className="relative bg-brand-purple text-white py-32 px-6 text-center overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_40%,_#9333EA_0%,_transparent_70%)] opacity-40" />
         <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-brand-gold to-transparent" />
 
         <div className="relative z-10 max-w-2xl mx-auto flex flex-col items-center gap-6">
@@ -149,13 +149,13 @@ export default function FAQPage() {
 
         <div className="absolute -bottom-px left-0 right-0">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#BAE6FD" />
+            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#ffffff" />
           </svg>
         </div>
       </section>
 
       {/* ── ACCORDION ── */}
-      <section className="bg-[#BAE6FD] py-24 px-6">
+      <section className="bg-white py-24 px-6">
         <div className="max-w-3xl mx-auto">
           {faqs.map((item, i) => (
             <AccordionItem
@@ -170,10 +170,13 @@ export default function FAQPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="relative bg-[#0f0020] text-white py-24 px-6 text-center overflow-hidden">
+      <section className="relative bg-gradient-to-b from-[#6B21A8] via-[#581c87] to-[#3b0764] text-white py-24 px-6 text-center overflow-hidden">
+        {/* atmospheric glow — soft warm highlight at top, deep shadow at bottom */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_45%_at_50%_0%,_rgba(168,85,247,0.35)_0%,_transparent_70%)] pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#1e0336]/40 to-transparent pointer-events-none" />
         <div className="absolute -top-px left-0 right-0 rotate-180">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#BAE6FD" />
+            <path d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 32C840 40 960 48 1080 44C1200 40 1320 24 1380 16L1440 8V80H0Z" fill="#ffffff" />
           </svg>
         </div>
         <motion.div
