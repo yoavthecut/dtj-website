@@ -94,25 +94,21 @@ export default function AboutPage() {
       <section className="bg-white py-28 px-6">
         <div className="max-w-4xl mx-auto">
           <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
-            className="text-brand-gold text-xs font-semibold tracking-[0.2em] uppercase mb-4">
+            className="text-brand-gold text-xs font-semibold tracking-[0.2em] uppercase mb-12">
             About the organization
           </motion.p>
-          <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1} variants={reveal}
-            className="font-serif text-4xl sm:text-5xl font-bold text-gray-900 mb-12 leading-tight">
-            Founded by Noa Amalia Arazi
-          </motion.h2>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
               className="flex flex-col gap-6 text-gray-700 leading-relaxed">
               <p>
-                The organization was founded by <span className="font-semibold text-gray-900">Noa Amalia Arazi</span>, who was born in Israel to a Jewish Israeli father and a French Catholic mother who later converted through a Reform conversion. Because Noa did not have official Jewish status in Israel, she later chose to undergo an Orthodox conversion through the <span className="font-semibold text-gray-900">&apos;Nativ&apos; program</span> in the Israeli army — a program that facilitates conversion for IDF soldiers.
+                The organization was founded by Noa Amalia Arazi, who was born in Israel to a Jewish Israeli father and a French Catholic mother who later converted through a Reform conversion. Because Noa did not have official Jewish status in Israel, she later chose to undergo an Orthodox conversion through the &apos;Nativ&apos; program in the Israeli army — a program that facilitates conversion for IDF soldiers.
               </p>
               <p>
-                Following the events of <span className="font-semibold text-gray-900">October 7</span>, Noa began sharing her personal conversion story on social media. The story quickly gained momentum, and through the many messages and questions she received, she realized that there is a significant need for accessible guidance and support for people seeking conversion outside of Israel — something that currently has very limited infrastructure.
+                Following the events of October 7, Noa began sharing her personal conversion story on social media. The story quickly gained momentum, and through the many messages and questions she received, she realized that there is a significant need for accessible guidance and support for people seeking conversion outside of Israel — something that currently has very limited infrastructure.
               </p>
               <p>
-                That realization became the foundation of <span className="font-semibold text-gray-900">Destined to be a Jew</span>.
+                That realization became the foundation of Destined to be a Jew.
               </p>
             </motion.div>
 
@@ -126,6 +122,20 @@ export default function AboutPage() {
               <p className="text-brand-gold text-xs font-semibold tracking-widest uppercase">— Noa Amalia Arazi</p>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* ── OUR VISION ── */}
+      <section className="bg-white pb-20 px-6">
+        <div className="max-w-4xl mx-auto">
+          <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
+            className="font-serif text-4xl sm:text-5xl font-bold text-gray-900 mb-8 leading-tight">
+            Our Vision
+          </motion.h2>
+          <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1} variants={reveal}
+            className="text-gray-700 leading-relaxed">
+            Our goal is to serve as a global umbrella organization, providing a comprehensive &ldquo;one-stop&rdquo; support system for the conversion process. We cover administrative, procedural, and emotional aspects on a global scale, acting as a professional bridge between candidates, Jewish communities, and conversion programs.
+          </motion.p>
         </div>
       </section>
 
