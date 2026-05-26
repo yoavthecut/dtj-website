@@ -133,6 +133,31 @@ export default function ServicesPage() {
         </div>
       </section>
 
+      {/* ── TEMPORARY BOOKING NOTICE ── */}
+      <section className="bg-white pt-12 px-6">
+        <motion.div
+          initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
+          className="max-w-3xl mx-auto rounded-2xl border-2 border-brand-gold/40 bg-brand-gold/5 px-6 py-6 sm:px-8 sm:py-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between shadow-sm"
+        >
+          <div className="flex-1">
+            <p className="text-brand-purple text-xs font-bold tracking-[0.2em] uppercase mb-2">
+              Notice
+            </p>
+            <p className="text-gray-800 leading-relaxed">
+              The booking page is currently under maintenance. In the meantime, you can place your orders using this temporary link.
+            </p>
+          </div>
+          <a
+            href="https://newchoosenewjews.simplybook.me/v2/?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAR6w4FleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAafDjOmB0p99wIBsrNlYQTIZSlLtozq1Rk5rrpY8NDiPF8TtXzdwinE7hVJV_Q_aem_LG-qs1f2cA8FTyRlm0ZLig#book"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 bg-brand-gold hover:bg-yellow-500 text-white font-semibold px-6 py-3 rounded-full text-sm tracking-wide transition-all shadow-md text-center"
+          >
+            Book a Session
+          </a>
+        </motion.div>
+      </section>
+
       {/* ── SERVICE CARDS ── */}
       <section className="relative bg-white py-24 px-6 overflow-hidden">
         <div className="max-w-6xl mx-auto">
