@@ -10,8 +10,31 @@ const jakartaSans = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-in
 const jakartaSansSerif = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-playfair", weight: ["600", "700", "800"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://dtbj.info"),
   title: "Destined to be a Jew",
   description: "Supporting converts to Judaism worldwide. Bringing Jewish souls back home.",
+  openGraph: {
+    title: "Destined to be a Jew",
+    description: "Supporting converts to Judaism worldwide. Bringing Jewish souls back home.",
+    url: "https://dtbj.info",
+    siteName: "Destined to be a Jew",
+    images: [
+      {
+        url: "/logo.png",
+        width: 1563,
+        height: 1563,
+        alt: "Destined to be a Jew",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Destined to be a Jew",
+    description: "Supporting converts to Judaism worldwide. Bringing Jewish souls back home.",
+    images: ["/logo.png"],
+  },
 };
 
 export default function RootLayout({

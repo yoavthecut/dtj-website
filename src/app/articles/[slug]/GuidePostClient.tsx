@@ -9,7 +9,7 @@ import { urlFor, type GuideDetail } from "@/lib/sanity";
 const portableTextComponents: PortableTextComponents = {
   block: {
     normal: ({ children }) => (
-      <p className="text-gray-700 leading-relaxed mb-6">{children}</p>
+      <p className="text-gray-800 leading-relaxed mb-6">{children}</p>
     ),
     h2: ({ children }) => (
       <h2 className="font-serif text-3xl font-bold text-gray-900 mt-10 mb-4 leading-tight">
@@ -22,14 +22,30 @@ const portableTextComponents: PortableTextComponents = {
       </h3>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-brand-gold pl-6 my-8 italic text-gray-600 text-lg leading-relaxed">
+      <blockquote className="border-l-4 border-brand-gold pl-6 my-8 italic text-gray-700 text-lg leading-relaxed">
         {children}
       </blockquote>
     ),
   },
+  list: {
+    bullet: ({ children }) => (
+      <ul className="list-disc list-outside pl-6 mb-6 text-gray-800 leading-relaxed space-y-2 marker:text-brand-purple">
+        {children}
+      </ul>
+    ),
+    number: ({ children }) => (
+      <ol className="list-decimal list-outside pl-6 mb-6 text-gray-800 leading-relaxed space-y-2 marker:text-brand-purple">
+        {children}
+      </ol>
+    ),
+  },
+  listItem: {
+    bullet: ({ children }) => <li className="text-gray-800">{children}</li>,
+    number: ({ children }) => <li className="text-gray-800">{children}</li>,
+  },
   marks: {
     strong: ({ children }) => (
-      <strong className="font-semibold text-gray-700">{children}</strong>
+      <strong className="font-semibold text-gray-900">{children}</strong>
     ),
     em: ({ children }) => <em className="italic">{children}</em>,
     link: ({ children, value }) => (
@@ -155,6 +171,7 @@ export default function GuidePostClient({ guide }: { guide: GuideDetail }) {
 
           <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true }} custom={2} variants={reveal}
+            className="text-gray-800"
           >
             {guide.body && (
               <PortableText value={guide.body} components={portableTextComponents} />

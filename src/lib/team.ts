@@ -46,7 +46,18 @@ export const team: TeamMember[] = [
     title: "Mohel",
     role: null,
     photo: "/team/rabbi-megidish.jpg",
-    bio: null,
+    bio: [
+      "Shalom everyone,",
+      "I'm Rabbi Yehonatan, and I'm dedicating my professional and spiritual life to serving the Jewish people and supporting those joining our nation at the most significant crossroads of their lives. My mission combines broad halakhic expertise with a deep, personal commitment to strengthening Jewish communities across the globe.",
+      "As a certified Mohel, I specialize in performing circumcisions for both children and adults. A unique and cherished pillar of my work involves Gerei Tzedek (righteous converts) - those who choose to tie their destiny to the Jewish people. I have been privileged to assist hundreds in their transition into the Jewish nation, ensuring the process is handled with the highest medical and halakhic standards, as well as with warmth and sensitivity.",
+      "The Sacred Arts and Halakhic Mastery",
+      "Over the years, I have earned various certifications that allow me to provide a comprehensive halakhic response to the needs of the community:",
+      "Certified Sofer and Proofreader (STAM): I write and inspect Torah scrolls, Tefillin, and Mezuzot, believing that the sanctity of these items is the foundation of a Jewish home.",
+      "Shochet, Bodek, and Menaker: My training in ritual slaughter and deveining ensures the highest levels of Kashrut and excellence for the communities I serve.",
+      "Kosher Supervision: I am fully certified to oversee and ensure the integrity of kosher establishments.",
+      "I am deeply involved in Jewish life worldwide, frequently traveling to strengthen remote communities. These missions include inspecting sacred scrolls, providing spiritual encouragement, and performing Brit Milah ceremonies for converts in every corner of the globe.",
+      "I believe that every person who chooses to tie their destiny to ours deserves to find an open heart and a helping hand.",
+    ],
   },
   {
     slug: "odelia-avnery",
@@ -67,7 +78,7 @@ export const team: TeamMember[] = [
     name: "Melissa Elbaz",
     title: "Spanish-Speaking Consultant",
     role: null,
-    photo: "/team/melissa-elbaz.jpg",
+    photo: "/team/melissa-elbaz-new.jpeg",
     bio: [
       "Shalom!",
       "I am an anthropologist and cultural bridge-builder, formed through a lifelong exploration of identity, belonging, and transmission.",
