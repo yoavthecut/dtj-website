@@ -348,29 +348,6 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════
-          COLLABORATION — inline trust band
-      ══════════════════════════════ */}
-      <section className="relative bg-white py-8 px-6">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
-          className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10">
-          <div className="text-center">
-            <p className="text-brand-purple text-xs sm:text-sm font-bold tracking-[0.2em] uppercase mb-1">
-              In collaboration with
-            </p>
-            <p className="font-serif text-base sm:text-lg font-semibold text-gray-900">
-              Conference of European Rabbis (CER)
-            </p>
-          </div>
-          <img
-            src="/rabigroup.jpg"
-            alt="Conference of European Rabbis (CER)"
-            className="rounded-lg shadow-sm h-20 sm:h-24 w-auto object-cover"
-            loading="lazy"
-          />
-        </motion.div>
-      </section>
-
-      {/* ══════════════════════════════
           GUIDES CTA — split layout
       ══════════════════════════════ */}
       <section className="relative py-24 px-6 bg-cover bg-center overflow-hidden" style={{ backgroundImage: "url('/articlebackground.png')" }}>

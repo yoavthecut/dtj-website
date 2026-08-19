@@ -11,7 +11,9 @@ const CATEGORIES = [
   { key: "Guides", label: "Guides", slug: "guides" },
   { key: "Legal Aspects", label: "Legal Aspects", slug: "legal-aspects" },
   { key: "Conversion Stories", label: "Conversion Stories", slug: "conversion-stories" },
-  { key: "The Weekly Torah Portion", label: "The Weekly Torah Portion", slug: "weekly-torah-portion" },
+  // `key` is the value stored in Sanity — kept as-is so existing articles still match; only the label changed.
+  { key: "The Weekly Torah Portion", label: "Devar Torah", slug: "devar-torah" },
+  { key: "Traveling in Israel", label: "Traveling in Israel", slug: "traveling-in-israel" },
 ] as const;
 
 function ArticleCard({ guide, index }: { guide: GuideCard; index: number }) {

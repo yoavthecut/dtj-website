@@ -37,10 +37,12 @@ export const guide = defineType({
       validation: (Rule) => Rule.required(),
       options: {
         list: [
-          { title: "The Weekly Torah Portion", value: "The Weekly Torah Portion" },
+          // Value kept as the legacy string so existing documents still match; only the Studio label changed.
+          { title: "Devar Torah", value: "The Weekly Torah Portion" },
           { title: "Legal Aspects", value: "Legal Aspects" },
           { title: "Guides", value: "Guides" },
           { title: "Conversion Stories", value: "Conversion Stories" },
+          { title: "Traveling in Israel", value: "Traveling in Israel" },
         ],
         layout: "radio",
       },

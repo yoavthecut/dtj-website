@@ -254,34 +254,12 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* wave bottom — pours back into the white "In collaboration with" section */}
+        {/* wave bottom — pours back into the white "Team CTA" section */}
         <div className="absolute -bottom-px left-0 right-0">
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full block">
             <path d="M0 0L60 12C120 24 240 48 360 56C480 64 600 56 720 48C840 40 960 32 1080 36C1200 40 1320 56 1380 64L1440 72V80H0Z" fill="#ffffff" />
           </svg>
         </div>
-      </section>
-
-      {/* ── IN COLLABORATION WITH ── */}
-      <section className="relative bg-white pb-16 px-6">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0} variants={reveal}
-          className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 border-t border-gray-100 pt-16">
-          <div className="text-center">
-            <p className="text-brand-purple text-xs sm:text-sm font-bold tracking-[0.2em] uppercase mb-1">
-              In collaboration with
-            </p>
-            <p className="font-serif text-base sm:text-lg font-semibold text-gray-900">
-              Conference of European Rabbis (CER)
-            </p>
-          </div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/rabigroup.jpg"
-            alt="Conference of European Rabbis (CER)"
-            className="rounded-lg shadow-sm h-20 sm:h-24 w-auto object-cover"
-            loading="lazy"
-          />
-        </motion.div>
       </section>
 
       {/* ── TEAM CTA ── */}

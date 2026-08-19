@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "createdAt": "2026-04-27T10:26:59.455Z",
+  "createdAt": "2026-08-19T13:45:21.254Z",
   "workspaces": [
     {
       "name": "dtj-studio",
@@ -12,7 +12,7 @@
       "mediaLibrary": {
         "enabled": false
       },
-      "schema": "350c2c99.create-schema.json",
+      "schema": "7072feea.create-schema.json",
       "tools": "1fa84ed8.create-tools.json"
     }
   ]

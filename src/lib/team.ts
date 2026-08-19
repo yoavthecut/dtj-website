@@ -27,6 +27,15 @@ export const team: TeamMember[] = [
     ],
   },
   {
+    slug: "rabbi-delouya",
+    name: "Rabbi Raphael Delouya",
+    title: "Dayan",
+    role: null,
+    photo: "/team/rabbi-delouya.jpeg",
+    bookable: false,
+    bio: null,
+  },
+  {
     slug: "rabbi-goldshmidt",
     name: "Rabbi Yonatan Goldshmidt",
     title: "Halachic Consultant",
@@ -46,6 +55,7 @@ export const team: TeamMember[] = [
     title: "Mohel",
     role: null,
     photo: "/team/rabbi-megidish.jpg",
+    bookable: false,
     bio: [
       "Shalom everyone,",
       "I'm Rabbi Yehonatan, and I'm dedicating my professional and spiritual life to serving the Jewish people and supporting those joining our nation at the most significant crossroads of their lives. My mission combines broad halakhic expertise with a deep, personal commitment to strengthening Jewish communities across the globe.",
@@ -75,7 +85,7 @@ export const team: TeamMember[] = [
   },
   {
     slug: "melissa-elbaz",
-    name: "Melissa Elbaz",
+    name: "Dr. Melissa Elbaz",
     title: "Spanish-Speaking Consultant",
     role: null,
     photo: "/team/melissa-elbaz-new.jpeg",

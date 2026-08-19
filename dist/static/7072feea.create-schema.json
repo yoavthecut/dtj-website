@@ -59,7 +59,7 @@
         "options": {
           "list": [
             {
-              "title": "The Weekly Torah Portion",
+              "title": "Devar Torah",
               "value": "The Weekly Torah Portion"
             },
             {
@@ -73,6 +73,10 @@
             {
               "title": "Conversion Stories",
               "value": "Conversion Stories"
+            },
+            {
+              "title": "Traveling in Israel",
+              "value": "Traveling in Israel"
             }
           ],
           "layout": "radio"
@@ -86,7 +90,8 @@
                   "The Weekly Torah Portion",
                   "Legal Aspects",
                   "Guides",
-                  "Conversion Stories"
+                  "Conversion Stories",
+                  "Traveling in Israel"
                 ]
               },
               {
