@@ -6,6 +6,25 @@ import Link from "next/link";
 import { reveal } from "@/lib/motion";
 import { team, type TeamMember } from "@/lib/team";
 
+// Bio paragraphs are plain strings; render any URL inside them as a clickable link.
+function linkify(text: string) {
+  return text.split(/(https?:\/\/[^\s]+)/g).map((part, i) =>
+    /^https?:\/\//.test(part) ? (
+      <a
+        key={i}
+        href={part}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-brand-purple font-semibold underline underline-offset-2 hover:text-brand-purple-dark transition-colors break-all"
+      >
+        {part}
+      </a>
+    ) : (
+      part
+    )
+  );
+}
+
 export default function ProfileView({ member }: { member: TeamMember }) {
   return (
     <div className="flex flex-col overflow-x-hidden">
@@ -67,7 +86,7 @@ export default function ProfileView({ member }: { member: TeamMember }) {
               className="flex flex-col gap-6 text-gray-700 text-lg leading-relaxed"
             >
               {member.bio.map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
+                <p key={i}>{linkify(paragraph)}</p>
               ))}
 
               <div className="mt-8 flex flex-col sm:flex-row gap-4">

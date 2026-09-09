@@ -110,7 +110,14 @@ export const team: TeamMember[] = [
     title: "Portuguese-Speaking Consultant",
     role: null,
     photo: "/team/jacqueline-passy.jpg",
-    bio: null,
+    bio: [
+      "Welcome! I'm Jacqueline Passy.",
+      "I am an educator, researcher, author, and speaker deeply passionate about preserving and sharing Brazil's rich Jewish history and identity.",
+      "With a background in Torah Didactics from Jerusalem and a Law degree, I have devoted much of my career to researching Sephardic history, genealogy, and the Inquisition. My research has taken me deep into the Torre do Tombo National Archives in Portugal, allowing me to uncover the fascinating and often forgotten stories of New Christians and their descendants.",
+      "My greatest joy is helping families reconnect with their heritage. Over the years, I have authored several books, including New Christians of Brazil – A Prophetic Return and Leilui Nishmat, as well as kosher cookbooks that beautifully blend Jewish dietary laws with daily family life.",
+      "To make this knowledge as accessible as possible, I founded an online school for Jewish studies and currently host the TV program Jewish Roots of Brazil. Whether I am guiding emerging Jewish communities, speaking at international congresses, or sharing everyday insights on social media, my mission remains the same: to build bridges between our past and present.",
+      "I believe that by understanding our history, we can better shape our future. I invite you to join me on this beautiful journey of exploring our memory, discovering our roots, and celebrating our shared identity!",
+    ],
   },
   {
     slug: "nechama-ovadia",
@@ -118,7 +125,10 @@ export const team: TeamMember[] = [
     title: "Immigration Attorney",
     role: null,
     photo: "/team/nechama-ovadia.jpg",
-    bio: null,
+    bio: [
+      "Hello! I'm Nechama, and I am the founder of Rosenberg & Ovadia.",
+      "You are welcome to read more about me here: https://inlaw.co.il/about-us-en/",
+    ],
   },
   {
     slug: "irena-rosenberg",
@@ -126,7 +136,10 @@ export const team: TeamMember[] = [
     title: "Immigration Attorney",
     role: null,
     photo: "/team/irena-rosenberg.jpg",
-    bio: null,
+    bio: [
+      "Hello! I'm Irena, and I am the founder of Rosenberg & Ovadia.",
+      "You are welcome to read more about me here: https://inlaw.co.il/about-us-en/",
+    ],
   },
 ];
 
