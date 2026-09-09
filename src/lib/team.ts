@@ -33,7 +33,12 @@ export const team: TeamMember[] = [
     role: null,
     photo: "/team/rabbi-delouya.jpeg",
     bookable: false,
-    bio: null,
+    bio: [
+      "My name is Rabbi Raphael Delouya. I was born in Paris, France, into a family deeply rooted in the Sephardic tradition. This rich heritage of warmth, inclusivity, and deep faith has shaped my worldview, my Torah study, and my life's mission.",
+      "Throughout my life, I have dedicated myself to community leadership, halachic writing in the compassionate spirit of the Sephardic tradition, and guiding those seeking a spiritual path. I am one of the founders of the Union of Sages of the Maghreb, serve as the Head of the Rabbinical Courts for the \"Giyur K'halacha\" network by ITIM, and proudly serve as the Rabbi of the \"Ohel Yitzchak\" congregation in Har Bracha, Israel.",
+      "I hold a deep-seated belief that any individual who sincerely wishes to join the Jewish people must be received with open arms and an open heart. The future, strength, and vitality of the Jewish nation rest significantly upon the righteous converts who choose to intertwine their destiny with ours. It is essential to me that this profound journey is conducted with the utmost dignity, warmth, and respect, fully embodying the biblical commandment: \"And you shall love the stranger, for you were strangers in the land of Egypt\".",
+      "We are currently witnessing an extraordinary historical moment. Anyone carrying a hidden Jewish spark within them - whether they recently discovered a Jewish grandfather or simply feel a profound, inexplicable connection in their soul to the People of Israel - is feeling a powerful urge to step forward and convert right now. This remarkable awakening knows no boundaries, crossing sectors, countries, and generations. I have the privilege of meeting well-established individuals alongside those who struggle daily, the young and the elderly, men and women from all walks of life. Despite their incredibly diverse backgrounds, they are all united by a single, beautiful desire: to finally come home.",
+    ],
   },
   {
     slug: "rabbi-goldshmidt",

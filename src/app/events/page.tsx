@@ -13,6 +13,17 @@ import { reveal } from "@/lib/motion";
 // ─────────────────────────────────────────────────────────────────
 const eventCategories = [
   {
+    id: "spain-2026",
+    title: "Spain Meetup 2026",
+    date: "2026",
+    description: "Our community came together in Spain — members and the DTJ team meeting face to face, sharing their journeys, and celebrating the connection between Jewish heritage and the Iberian Peninsula.",
+    photos: [
+      "/events/spain-2026/IMG_0521.jpg",
+      "/events/spain-2026/IMG_0637.jpg",
+      "/events/spain-2026/IMG_3515.jpg",
+    ],
+  },
+  {
     id: "launch",
     title: "Launch Event",
     date: "2026",

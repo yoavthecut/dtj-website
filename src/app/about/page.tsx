@@ -180,7 +180,7 @@ export default function AboutPage() {
                 <Heart className="w-6 h-6" strokeWidth={1.75} />
               </div>
               <p className="font-serif text-6xl font-bold text-brand-gold leading-none relative z-10">
-                <AnimatedNumber to={50} suffix="+" />
+                <AnimatedNumber to={80} suffix="+" />
               </p>
               <p className="text-white font-semibold text-base relative z-10">Journeys begun</p>
               <p className="text-white/65 text-xs leading-relaxed relative z-10">Have already started their conversion with our guidance.</p>

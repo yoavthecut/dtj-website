@@ -16,7 +16,7 @@ const painPoints = [
 ];
 
 const stats = [
-  { number: "50+", label: "Journeys guided" },
+  { number: "80+", label: "Journeys guided" },
   { number: "16K+", label: "Global followers" },
   { number: "20+", label: "Countries reached" },
   { number: "10+", label: "Languages spoken" },
